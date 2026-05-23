@@ -241,6 +241,31 @@ body { color: #1c2a22; }
   box-shadow: 0 4px 12px rgba(18, 53, 37, .14);
 }
 
+.container.phone-grid {
+  position: relative;
+  isolation: isolate;
+}
+
+.container.phone-grid::before {
+  content: "";
+  width: min(44vw, 520px);
+  height: min(44vw, 520px);
+  background: radial-gradient(circle, rgba(170, 210, 90, .42) 0%, rgba(70, 140, 80, .34) 42%, rgba(70, 140, 80, 0) 72%);
+  filter: blur(28px);
+  border-radius: 50%;
+  pointer-events: none;
+  position: absolute;
+  top: 8%;
+  right: 0;
+  z-index: -1;
+}
+
+.container.phone-grid .circle-shape._400.hero {
+  background-color: rgba(70, 140, 80, .18) !important;
+  background-image: radial-gradient(circle, rgba(170, 210, 90, .38), rgba(70, 140, 80, .16) 62%, rgba(70, 140, 80, 0));
+  filter: blur(10px);
+}
+
 @media screen and (max-width: 479px) {
   .phone-slide-banner {
     gap: 8px;
@@ -252,5 +277,13 @@ body { color: #1c2a22; }
     height: 22px !important;
     min-width: 22px;
     padding: 3px;
+  }
+
+  .container.phone-grid::before {
+    width: 300px;
+    height: 300px;
+    top: 34%;
+    right: -70px;
+    filter: blur(22px);
   }
 }
