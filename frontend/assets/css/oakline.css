@@ -30,6 +30,7 @@ body { color: #1c2a22; }
 .listings-tab-link-button.w--current {
   background-color: var(--oakline-green);
   border-color: var(--oakline-green);
+  color: #fff;
 }
 
 .button:hover,
@@ -38,18 +39,38 @@ body { color: #1c2a22; }
 .get-started-button:hover,
 .submit-button:hover,
 .submit-button-2:hover {
-  background-color: var(--oakline-green-dark);
-  border-color: var(--oakline-green-dark);
+  color: #fff !important;
+  background-color: #5fa764;
+  border-color: #5fa764;
+  box-shadow: 0 8px 18px rgba(70, 140, 80, .18);
 }
 
 .button-light {
   color: var(--oakline-green-dark);
   background-color: var(--oakline-green-soft);
+  border: 1px solid rgba(70, 140, 80, .2);
 }
 
 .button-light:hover {
-  color: #fff;
-  background-color: var(--oakline-green);
+  color: var(--oakline-green-dark) !important;
+  background-color: #e8f7dc;
+  border-color: rgba(70, 140, 80, .35);
+  box-shadow: 0 8px 18px rgba(70, 140, 80, .12);
+}
+
+.button:hover *,
+.button-navigation-2:hover *,
+.mobile-button-navigation-2:hover *,
+.get-started-button:hover *,
+.submit-button:hover *,
+.submit-button-2:hover * {
+  color: inherit !important;
+  -webkit-text-fill-color: currentColor;
+}
+
+.button-light:hover * {
+  color: inherit !important;
+  -webkit-text-fill-color: currentColor;
 }
 
 .price-block,
