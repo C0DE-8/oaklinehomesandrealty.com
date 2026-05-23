@@ -6,14 +6,17 @@ const cors = require("cors");
 const db = require("./config/db");
 const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/users");
+const listingRoutes = require("./routes/listings");
 const adminProfileRoutes = require("./routes/admin.profile");
+const adminListingRoutes = require("./routes/admin.listings");
+const adminAgentRoutes = require("./routes/admin.agents");
 
 const app = express();
 const port = Number(process.env.PORT || 5000);
 
 app.use(
   cors({
-    origin: process.env.CORS_ORIGIN || true,
+    origin: true,
     credentials: true,
   })
 );
@@ -31,7 +34,10 @@ app.get("/api/health", async (req, res, next) => {
 
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/listings", listingRoutes);
 app.use("/api/admin/profile", adminProfileRoutes);
+app.use("/api/admin/listings", adminListingRoutes);
+app.use("/api/admin/agents", adminAgentRoutes);
 
 app.use((req, res) => {
   res.status(404).json({ message: "Route not found." });

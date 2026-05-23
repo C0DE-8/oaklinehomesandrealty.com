@@ -1,6 +1,207 @@
-<html>
-<head><title>502 Bad Gateway</title></head>
-<body>
-<center><h1>502 Bad Gateway</h1></center>
-</body>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Agents | Oakline Homes and Realty</title>
+    <meta
+      name="description"
+      content="Meet Oakline Homes and Realty agents helping renters and buyers across the United States."
+    />
+    <link href="assets/css/oakline.css" rel="stylesheet" type="text/css" />
+    <link href="assets/images/branding/favicon.png" rel="shortcut icon" type="image/x-icon" />
+    <link href="assets/images/branding/apple-touch-icon.png" rel="apple-touch-icon" />
+    <style>
+      body {
+        color: #17231c;
+        background: #f8faf6;
+        font-family: Manrope, Arial, sans-serif;
+      }
+
+      .agents-page {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .agents-nav {
+        border-bottom: 1px solid rgba(18, 53, 37, .12);
+        background: #fff;
+      }
+
+      .agents-nav-inner {
+        width: min(1120px, calc(100% - 32px));
+        min-height: 76px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+      }
+
+      .agents-logo {
+        width: 180px;
+        display: block;
+      }
+
+      .agents-nav-links {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+      }
+
+      .agents-nav-links a {
+        color: #123525;
+        font-weight: 800;
+        text-decoration: none;
+      }
+
+      .agents-hero {
+        width: min(1120px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: 58px 0 34px;
+      }
+
+      .agents-hero h1 {
+        max-width: 760px;
+        margin: 0 0 14px;
+        font-size: 48px;
+        line-height: 1.05;
+        letter-spacing: 0;
+      }
+
+      .agents-hero p {
+        max-width: 680px;
+        margin: 0;
+        color: #617067;
+        font-size: 18px;
+        line-height: 1.6;
+      }
+
+      .agents-grid {
+        width: min(1120px, calc(100% - 32px));
+        margin: 0 auto 70px;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 18px;
+      }
+
+      .agent-card {
+        color: inherit;
+        background: #fff;
+        border: 1px solid rgba(18, 53, 37, .12);
+        border-radius: 8px;
+        overflow: hidden;
+        text-decoration: none;
+        box-shadow: 0 18px 44px rgba(18, 53, 37, .08);
+      }
+
+      .agent-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 22px 54px rgba(18, 53, 37, .12);
+      }
+
+      .agent-card img {
+        width: 100%;
+        aspect-ratio: 4 / 3;
+        object-fit: cover;
+        display: block;
+      }
+
+      .agent-card-body {
+        padding: 18px;
+      }
+
+      .agent-card h2 {
+        margin: 0 0 8px;
+        font-size: 22px;
+        line-height: 1.2;
+        letter-spacing: 0;
+      }
+
+      .agent-card p {
+        margin: 0 0 16px;
+        color: #617067;
+        line-height: 1.55;
+      }
+
+      .agent-card span {
+        color: #468c50;
+        font-weight: 900;
+      }
+
+      @media (max-width: 820px) {
+        .agents-nav-inner {
+          align-items: flex-start;
+          flex-direction: column;
+          padding: 18px 0;
+        }
+
+        .agents-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .agents-hero h1 {
+          font-size: 36px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="agents-page">
+      <nav class="agents-nav" aria-label="Primary navigation">
+        <div class="agents-nav-inner">
+          <a href="index.html">
+            <img
+              src="assets/images/branding/main-logo.png"
+              alt="Oakline Homes and Realty"
+              class="agents-logo"
+            />
+          </a>
+          <div class="agents-nav-links">
+            <a href="listings.html">Listings</a>
+            <a href="our-process.html">Our Process</a>
+            <a href="get-started.html">Get Started</a>
+          </div>
+        </div>
+      </nav>
+
+      <section class="agents-hero">
+        <h1>Meet the Oakline agents</h1>
+        <p>
+          Work with real estate agents who help you compare homes, understand local markets,
+          and move with confidence across the United States.
+        </p>
+      </section>
+
+      <section class="agents-grid" aria-label="Oakline agents">
+        <a href="agents/holly.html" class="agent-card">
+          <img src="assets/images/agents/holly.png" alt="Holly" />
+          <div class="agent-card-body">
+            <h2>Holly</h2>
+            <p>Licensed real estate agent focused on clear options and smooth client support.</p>
+            <span>View Profile</span>
+          </div>
+        </a>
+
+        <a href="agents/hannah.html" class="agent-card">
+          <img src="assets/images/agents/hannah.png" alt="Hannah" />
+          <div class="agent-card-body">
+            <h2>Hannah</h2>
+            <p>Apartment and home search support with practical guidance from start to finish.</p>
+            <span>View Profile</span>
+          </div>
+        </a>
+
+        <a href="agents/elliot.html" class="agent-card">
+          <img src="assets/images/agents/elliot.jpg" alt="Elliot" />
+          <div class="agent-card-body">
+            <h2>Elliot</h2>
+            <p>Real estate support for clients comparing neighborhoods, pricing, and timing.</p>
+            <span>View Profile</span>
+          </div>
+        </a>
+      </section>
+    </main>
+  </body>
 </html>

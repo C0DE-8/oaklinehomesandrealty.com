@@ -1,6 +1,6 @@
 (function () {
   const tokenKey = "oakline_admin_token";
-  const baseURL = window.OAKLINE_API_BASE_URL || "http://localhost:5000/api";
+  const baseURL = "http://localhost:5000/api";
 
   const client = axios.create({
     baseURL,
