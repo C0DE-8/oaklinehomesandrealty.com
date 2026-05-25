@@ -83,7 +83,7 @@
     const data = new FormData(form);
 
     Array.from(data.entries()).forEach(([key, value]) => {
-      if (value === "" || (value instanceof File && !value.name)) {
+      if (value === "" || (typeof File !== "undefined" && value instanceof File && !value.name)) {
         data.delete(key);
       }
     });

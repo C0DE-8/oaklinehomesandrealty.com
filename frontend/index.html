@@ -107,6 +107,100 @@
       .phone-slide {
         will-change: transform;
       }
+
+      .application-fee-notice {
+        z-index: 999;
+        position: fixed;
+        right: 20px;
+        bottom: 20px;
+        width: min(380px, calc(100vw - 40px));
+        max-height: calc(100vh - 120px);
+        overflow: auto;
+        color: #17231c;
+        background: #ffffff;
+        border: 1px solid rgba(18, 53, 37, 0.16);
+        border-radius: 8px;
+        box-shadow: 0 18px 50px rgba(18, 53, 37, 0.18);
+        padding: 18px;
+      }
+
+      .application-fee-notice.is-hidden {
+        display: none;
+      }
+
+      .application-fee-notice-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 12px;
+        margin-bottom: 12px;
+      }
+
+      .application-fee-notice h2 {
+        margin: 0;
+        color: #123525;
+        font-size: 18px;
+        line-height: 1.25;
+        letter-spacing: 0;
+      }
+
+      .application-fee-notice-close {
+        width: 32px;
+        height: 32px;
+        flex: 0 0 auto;
+        border: 1px solid rgba(18, 53, 37, 0.14);
+        border-radius: 7px;
+        color: #123525;
+        background: #f4fbec;
+        font-size: 20px;
+        line-height: 1;
+      }
+
+      .application-fee-notice-section {
+        padding-top: 12px;
+        border-top: 1px solid rgba(18, 53, 37, 0.12);
+      }
+
+      .application-fee-notice-section:first-of-type {
+        padding-top: 0;
+        border-top: 0;
+      }
+
+      .application-fee-notice h3 {
+        margin: 0 0 8px;
+        color: #123525;
+        font-size: 14px;
+        line-height: 1.3;
+        letter-spacing: 0;
+      }
+
+      .application-fee-notice p,
+      .application-fee-notice li {
+        margin: 0 0 8px;
+        color: #617067;
+        font-size: 13px;
+        line-height: 1.55;
+      }
+
+      .application-fee-notice strong {
+        color: #17231c;
+      }
+
+      .application-fee-notice ul {
+        margin: 0;
+        padding-left: 18px;
+      }
+
+      @media screen and (max-width: 767px) {
+        .application-fee-notice {
+          left: 12px;
+          right: 12px;
+          bottom: 12px;
+          width: auto;
+          max-height: 55vh;
+          padding: 16px;
+        }
+      }
     </style>
 
     <!-- Google Tag Manager -->
@@ -124,6 +218,45 @@
     </script>
   </head>
   <body>
+    <aside
+      class="application-fee-notice"
+      id="application-fee-notice"
+      aria-label="Application fee and holding fee notice"
+    >
+      <div class="application-fee-notice-header">
+        <h2>Application Fee Notice</h2>
+        <button
+          class="application-fee-notice-close"
+          type="button"
+          id="application-fee-notice-close"
+          aria-label="Close application fee notice"
+        >
+          &times;
+        </button>
+      </div>
+      <div class="application-fee-notice-section">
+        <h3>Application Fee</h3>
+        <p>
+          Each adult applicant (18+) is required to pay a
+          <strong>non-refundable $75 application fee</strong> for credit,
+          background, and rental history screening. The total cost depends on
+          the number of adult applicants.
+        </p>
+      </div>
+      <div class="application-fee-notice-section">
+        <h3>Reserve Your Unit (Optional Holding Fee)</h3>
+        <p>
+          If you select a property, you may choose to secure it with a holding
+          fee while your application is being processed.
+        </p>
+        <p><strong>Holding Fee: typically $100-$500 depending on the unit.</strong></p>
+        <ul>
+          <li>Reserves the property during the application process.</li>
+          <li>May be applied toward move-in costs if approved.</li>
+          <li>Terms will be clearly confirmed before payment.</li>
+        </ul>
+      </div>
+    </aside>
     <div
       data-collapse="medium"
       data-animation="default"
@@ -1782,6 +1915,25 @@
       crossorigin="anonymous"
     ></script>
     <script src="assets/js/vendor/elfsight-platform.js" defer></script>
+    <script>
+      (function () {
+        var notice = document.getElementById("application-fee-notice");
+        var close = document.getElementById("application-fee-notice-close");
+
+        if (!notice || !close) {
+          return;
+        }
+
+        if (sessionStorage.getItem("oakline_application_fee_notice_closed") === "1") {
+          notice.classList.add("is-hidden");
+        }
+
+        close.addEventListener("click", function () {
+          notice.classList.add("is-hidden");
+          sessionStorage.setItem("oakline_application_fee_notice_closed", "1");
+        });
+      })();
+    </script>
   </body>
   <!-- Mirrored from www.oaklinehomesrealty.com/ by c0de8 Website Copier/3.x [XR&CO'2017], Fri, 22 May 2026 07:30:34 GMT -->
 </html>
