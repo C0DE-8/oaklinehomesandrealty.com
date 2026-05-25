@@ -1,12 +1,59 @@
 const express = require("express");
+const fs = require("fs");
+const path = require("path");
+const multer = require("multer");
 
 const db = require("../config/db");
 const { requireAdmin } = require("../middleware/authMiddleware");
 
 const router = express.Router();
+const uploadRoot = path.join(__dirname, "..", "uploads", "listings");
 
 const allowedStatuses = new Set(["draft", "active", "pending", "sold", "leased", "archived"]);
 const allowedTypes = new Set(["apartment", "house", "townhome", "condo", "land", "commercial", "other"]);
+const allowedImageTypes = new Set(["image/jpeg", "image/png", "image/webp", "image/gif"]);
+
+fs.mkdirSync(uploadRoot, { recursive: true });
+
+const upload = multer({
+  storage: multer.diskStorage({
+    destination(req, file, cb) {
+      cb(null, uploadRoot);
+    },
+    filename(req, file, cb) {
+      const extension = path.extname(file.originalname || "").toLowerCase();
+      const safeExtension = extension && extension.length <= 8 ? extension : ".jpg";
+      cb(null, `${Date.now()}-${Math.round(Math.random() * 1e9)}${safeExtension}`);
+    },
+  }),
+  limits: {
+    fileSize: 6 * 1024 * 1024,
+    files: 16,
+  },
+  fileFilter(req, file, cb) {
+    if (!allowedImageTypes.has(file.mimetype)) {
+      return cb(new Error("Only JPG, PNG, WebP, and GIF images can be uploaded."));
+    }
+
+    return cb(null, true);
+  },
+});
+
+const listingUpload = upload.fields([
+  { name: "cover_image_file", maxCount: 1 },
+  { name: "gallery_images", maxCount: 15 },
+]);
+
+function handleListingUpload(req, res, next) {
+  listingUpload(req, res, (error) => {
+    if (error) {
+      error.statusCode = 400;
+      return next(error);
+    }
+
+    return next();
+  });
+}
 
 function cleanString(value) {
   return typeof value === "string" ? value.trim() : "";
@@ -32,6 +79,14 @@ function slugify(value) {
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "")
     .slice(0, 200);
+}
+
+function uploadedImageUrl(file) {
+  return file ? `/uploads/listings/${file.filename}` : null;
+}
+
+function uploadedFiles(req, field) {
+  return req.files && Array.isArray(req.files[field]) ? req.files[field] : [];
 }
 
 function listingPayload(body, adminId) {
@@ -86,7 +141,64 @@ async function readListing(id) {
     [id]
   );
 
-  return rows[0] || null;
+  const listing = rows[0] || null;
+
+  if (!listing) {
+    return null;
+  }
+
+  listing.images = await readListingImages(id);
+  return listing;
+}
+
+async function readListingImages(propertyId) {
+  const [rows] = await db.execute(
+    `SELECT id, property_id, image_url, alt_text, sort_order, is_primary, created_at
+       FROM property_images
+      WHERE property_id = ?
+      ORDER BY is_primary DESC, sort_order ASC, id ASC`,
+    [propertyId]
+  );
+
+  return rows;
+}
+
+async function attachListingImages(listings) {
+  if (!listings.length) {
+    return listings;
+  }
+
+  const ids = listings.map((listing) => listing.id);
+  const placeholders = ids.map(() => "?").join(",");
+  const [images] = await db.execute(
+    `SELECT id, property_id, image_url, alt_text, sort_order, is_primary, created_at
+       FROM property_images
+      WHERE property_id IN (${placeholders})
+      ORDER BY is_primary DESC, sort_order ASC, id ASC`,
+    ids
+  );
+  const imagesByListing = new Map();
+
+  images.forEach((image) => {
+    const list = imagesByListing.get(image.property_id) || [];
+    list.push(image);
+    imagesByListing.set(image.property_id, list);
+  });
+
+  return listings.map((listing) => ({
+    ...listing,
+    images: imagesByListing.get(listing.id) || [],
+  }));
+}
+
+async function addGalleryImages(propertyId, files, startSortOrder = 0) {
+  for (const [index, file] of files.entries()) {
+    await db.execute(
+      `INSERT INTO property_images (property_id, image_url, alt_text, sort_order, is_primary)
+       VALUES (?, ?, ?, ?, 0)`,
+      [propertyId, uploadedImageUrl(file), file.originalname || null, startSortOrder + index]
+    );
+  }
 }
 
 router.use(requireAdmin);
@@ -121,7 +233,7 @@ router.get("/", async (req, res, next) => {
       params
     );
 
-    return res.json({ listings: rows });
+    return res.json({ listings: await attachListingImages(rows) });
   } catch (error) {
     return next(error);
   }
@@ -167,9 +279,15 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
-router.post("/", async (req, res, next) => {
+router.post("/", handleListingUpload, async (req, res, next) => {
   try {
     const payload = listingPayload(req.body, req.admin.id);
+    const coverImage = uploadedFiles(req, "cover_image_file")[0];
+    const galleryImages = uploadedFiles(req, "gallery_images");
+
+    if (coverImage) {
+      payload.cover_image_url = uploadedImageUrl(coverImage);
+    }
 
     const [result] = await db.execute(
       `INSERT INTO properties
@@ -181,6 +299,8 @@ router.post("/", async (req, res, next) => {
       Object.values(payload)
     );
 
+    await addGalleryImages(result.insertId, galleryImages);
+
     const listing = await readListing(result.insertId);
     return res.status(201).json({ message: "Listing created.", listing });
   } catch (error) {
@@ -191,7 +311,7 @@ router.post("/", async (req, res, next) => {
   }
 });
 
-router.patch("/:id", async (req, res, next) => {
+router.patch("/:id", handleListingUpload, async (req, res, next) => {
   try {
     const existing = await readListing(req.params.id);
 
@@ -200,6 +320,12 @@ router.patch("/:id", async (req, res, next) => {
     }
 
     const payload = listingPayload({ ...existing, ...req.body }, existing.created_by || req.admin.id);
+    const coverImage = uploadedFiles(req, "cover_image_file")[0];
+    const galleryImages = uploadedFiles(req, "gallery_images");
+
+    if (coverImage) {
+      payload.cover_image_url = uploadedImageUrl(coverImage);
+    }
 
     await db.execute(
       `UPDATE properties
@@ -233,12 +359,31 @@ router.patch("/:id", async (req, res, next) => {
       ]
     );
 
+    await addGalleryImages(req.params.id, galleryImages, existing.images.length);
+
     const listing = await readListing(req.params.id);
     return res.json({ message: "Listing updated.", listing });
   } catch (error) {
     if (error.code === "ER_DUP_ENTRY") {
       return res.status(409).json({ message: "Listing slug or code already exists." });
     }
+    return next(error);
+  }
+});
+
+router.delete("/:id/images/:imageId", async (req, res, next) => {
+  try {
+    const [result] = await db.execute(
+      "DELETE FROM property_images WHERE id = ? AND property_id = ?",
+      [req.params.imageId, req.params.id]
+    );
+
+    if (!result.affectedRows) {
+      return res.status(404).json({ message: "Listing image not found." });
+    }
+
+    return res.json({ message: "Listing image deleted." });
+  } catch (error) {
     return next(error);
   }
 });

@@ -8,6 +8,46 @@ function cleanString(value) {
   return typeof value === "string" ? value.trim() : "";
 }
 
+async function readListingImages(propertyId) {
+  const [rows] = await db.execute(
+    `SELECT id, property_id, image_url, alt_text, sort_order, is_primary, created_at
+       FROM property_images
+      WHERE property_id = ?
+      ORDER BY is_primary DESC, sort_order ASC, id ASC`,
+    [propertyId]
+  );
+
+  return rows;
+}
+
+async function attachListingImages(listings) {
+  if (!listings.length) {
+    return listings;
+  }
+
+  const ids = listings.map((listing) => listing.id);
+  const placeholders = ids.map(() => "?").join(",");
+  const [images] = await db.execute(
+    `SELECT id, property_id, image_url, alt_text, sort_order, is_primary, created_at
+       FROM property_images
+      WHERE property_id IN (${placeholders})
+      ORDER BY is_primary DESC, sort_order ASC, id ASC`,
+    ids
+  );
+  const imagesByListing = new Map();
+
+  images.forEach((image) => {
+    const list = imagesByListing.get(image.property_id) || [];
+    list.push(image);
+    imagesByListing.set(image.property_id, list);
+  });
+
+  return listings.map((listing) => ({
+    ...listing,
+    images: imagesByListing.get(listing.id) || [],
+  }));
+}
+
 router.get("/", async (req, res, next) => {
   try {
     const search = cleanString(req.query.search);
@@ -36,7 +76,7 @@ router.get("/", async (req, res, next) => {
       params
     );
 
-    return res.json({ listings: rows });
+    return res.json({ listings: await attachListingImages(rows) });
   } catch (error) {
     return next(error);
   }
@@ -59,7 +99,10 @@ router.get("/:slug", async (req, res, next) => {
       return res.status(404).json({ message: "Listing not found." });
     }
 
-    return res.json({ listing: rows[0] });
+    const listing = rows[0];
+    listing.images = await readListingImages(listing.id);
+
+    return res.json({ listing });
   } catch (error) {
     return next(error);
   }

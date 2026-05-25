@@ -4,6 +4,58 @@
   const status = document.getElementById("admin-status");
   const dashboardStatus = document.getElementById("dashboard-status");
   const logoutButton = document.getElementById("admin-logout");
+  const stateAbbreviations = {
+    alabama: "AL",
+    alaska: "AK",
+    arizona: "AZ",
+    arkansas: "AR",
+    california: "CA",
+    colorado: "CO",
+    connecticut: "CT",
+    delaware: "DE",
+    florida: "FL",
+    georgia: "GA",
+    hawaii: "HI",
+    idaho: "ID",
+    illinois: "IL",
+    indiana: "IN",
+    iowa: "IA",
+    kansas: "KS",
+    kentucky: "KY",
+    louisiana: "LA",
+    maine: "ME",
+    maryland: "MD",
+    massachusetts: "MA",
+    michigan: "MI",
+    minnesota: "MN",
+    mississippi: "MS",
+    missouri: "MO",
+    montana: "MT",
+    nebraska: "NE",
+    nevada: "NV",
+    newhampshire: "NH",
+    newjersey: "NJ",
+    newmexico: "NM",
+    newyork: "NY",
+    northcarolina: "NC",
+    northdakota: "ND",
+    ohio: "OH",
+    oklahoma: "OK",
+    oregon: "OR",
+    pennsylvania: "PA",
+    rhodeisland: "RI",
+    southcarolina: "SC",
+    southdakota: "SD",
+    tennessee: "TN",
+    texas: "TX",
+    utah: "UT",
+    vermont: "VT",
+    virginia: "VA",
+    washington: "WA",
+    westvirginia: "WV",
+    wisconsin: "WI",
+    wyoming: "WY",
+  };
   let listings = [];
   let agents = [];
 
@@ -27,12 +79,44 @@
     return data;
   }
 
+  function listingFormData(form) {
+    const data = new FormData(form);
+
+    Array.from(data.entries()).forEach(([key, value]) => {
+      if (value === "" || (value instanceof File && !value.name)) {
+        data.delete(key);
+      }
+    });
+
+    return data;
+  }
+
   function redirectToLogin() {
     window.location.href = "admin/index.html";
   }
 
   function redirectToDashboard() {
     window.location.href = "admin/dashboard.html";
+  }
+
+  function normalizeState(value) {
+    const state = String(value || "").trim();
+
+    if (state.length === 2) {
+      return state.toUpperCase();
+    }
+
+    return stateAbbreviations[state.toLowerCase().replace(/[^a-z]/g, "")] || state;
+  }
+
+  function absoluteApiUrl(value) {
+    const url = String(value || "");
+
+    if (!url || /^[a-z][a-z0-9+.-]*:/i.test(url)) {
+      return url;
+    }
+
+    return `${api.baseURL.replace(/\/api$/, "")}${url.startsWith("/") ? url : `/${url}`}`;
   }
 
   async function requireAdmin() {
@@ -70,6 +154,7 @@
 
     logoutButton.addEventListener("click", () => {
       api.clearToken();
+      sessionStorage.setItem("oakline_skip_user_admin_exchange", "1");
       redirectToLogin();
     });
   }
@@ -93,20 +178,24 @@
     }
 
     list.innerHTML = listings
-      .map(
-        (listing) => `
+      .map((listing) => {
+        const location = [listing.address_line_1, listing.address_line_2, listing.city, listing.state, listing.postal_code]
+          .filter(Boolean)
+          .join(", ");
+
+        return `
           <div class="admin-list-item">
             <div>
               <strong>${listing.title}</strong>
-              <span>${listing.city || ""}, ${listing.state || ""} - ${listing.status} - $${Number(listing.price || 0).toLocaleString()}</span>
+              <span>${location || "United States"} - ${listing.status} - $${Number(listing.price || 0).toLocaleString()}</span>
             </div>
             <div class="admin-list-actions">
               <button class="admin-mini-button" type="button" data-edit-listing="${listing.id}">Edit</button>
               <button class="admin-mini-button danger" type="button" data-delete-listing="${listing.id}">Delete</button>
             </div>
           </div>
-        `
-      )
+        `;
+      })
       .join("");
   }
 
@@ -143,6 +232,22 @@
     if (api.getToken()) {
       redirectToDashboard();
       return;
+    }
+
+    const skipUserExchange = sessionStorage.getItem("oakline_skip_user_admin_exchange") === "1";
+    sessionStorage.removeItem("oakline_skip_user_admin_exchange");
+
+    if (!skipUserExchange && api.getUserToken && api.getUserToken()) {
+      setStatus(status, "Checking signed-in user access...", "");
+
+      try {
+        const data = await api.loginFromUserSession();
+        api.setToken(data.token);
+        redirectToDashboard();
+        return;
+      } catch (error) {
+        setStatus(status, "Signed-in user could not be used for admin access. Log in with an admin account.", "error");
+      }
     }
 
     const loginForm = document.getElementById("admin-login-form");
@@ -206,19 +311,108 @@
 
   function fillListingForm(listing) {
     document.getElementById("listing-id").value = listing.id || "";
+    document.getElementById("listing-country").value = listing.country || "United States";
     document.getElementById("listing-title").value = listing.title || "";
     document.getElementById("listing-code").value = listing.listing_code || "";
     document.getElementById("listing-status").value = listing.status || "draft";
     document.getElementById("listing-type").value = listing.property_type || "apartment";
     document.getElementById("listing-address").value = listing.address_line_1 || "";
+    document.getElementById("listing-address-2").value = listing.address_line_2 || "";
     document.getElementById("listing-city").value = listing.city || "";
-    document.getElementById("listing-state").value = listing.state || "";
+    document.getElementById("listing-state").value = normalizeState(listing.state);
+    document.getElementById("listing-postal-code").value = listing.postal_code || "";
     document.getElementById("listing-price").value = listing.price || "";
     document.getElementById("listing-bedrooms").value = listing.bedrooms || "";
     document.getElementById("listing-bathrooms").value = listing.bathrooms || "";
     document.getElementById("listing-square-feet").value = listing.square_feet || "";
-    document.getElementById("listing-cover").value = listing.cover_image_url || "";
+    document.getElementById("listing-cover").value = "";
+    document.getElementById("listing-cover-url").value = listing.cover_image_url || "";
+    renderCoverPreview(listing.cover_image_url);
+    renderGalleryPreview(listing.id, listing.images || []);
     document.getElementById("listing-description").value = listing.description || "";
+    syncListingMarket();
+  }
+
+  function renderCoverPreview(imageUrl) {
+    const preview = document.getElementById("listing-cover-preview");
+
+    if (!preview) {
+      return;
+    }
+
+    preview.innerHTML = imageUrl
+      ? `<div class="admin-image-thumb"><img src="${absoluteApiUrl(imageUrl)}" alt="Current cover image"></div>`
+      : "";
+  }
+
+  function renderGalleryPreview(listingId, images) {
+    const preview = document.getElementById("listing-gallery-preview");
+
+    if (!preview) {
+      return;
+    }
+
+    preview.innerHTML = (images || [])
+      .map(
+        (image) => `
+          <div class="admin-image-thumb">
+            <img src="${absoluteApiUrl(image.image_url)}" alt="${image.alt_text || "Listing image"}">
+            <button class="admin-image-remove" type="button" data-delete-listing-image="${image.id}" data-listing-id="${listingId}">x</button>
+          </div>
+        `
+      )
+      .join("");
+  }
+
+  function renderSelectedCover(fileInput) {
+    const file = fileInput.files && fileInput.files[0];
+
+    if (!file) {
+      return;
+    }
+
+    renderCoverPreview(URL.createObjectURL(file));
+  }
+
+  function renderSelectedGallery(fileInput) {
+    const preview = document.getElementById("listing-gallery-preview");
+    const files = Array.from(fileInput.files || []);
+
+    if (!files.length || !preview) {
+      return;
+    }
+
+    preview.innerHTML = files
+      .map(
+        (file) => `
+          <div class="admin-image-thumb">
+            <img src="${URL.createObjectURL(file)}" alt="${file.name}">
+          </div>
+        `
+      )
+      .join("");
+  }
+
+  function setListingMarket(value) {
+    if (!value) {
+      return;
+    }
+
+    const [city, state] = value.split("|");
+    document.getElementById("listing-city").value = city || "";
+    document.getElementById("listing-state").value = state || "";
+  }
+
+  function syncListingMarket() {
+    const market = document.getElementById("listing-market");
+    const city = document.getElementById("listing-city").value.trim().toLowerCase();
+    const state = document.getElementById("listing-state").value.trim().toUpperCase();
+    const match = Array.from(market.options).find((option) => {
+      const [optionCity, optionState] = option.value.split("|");
+      return optionCity && optionCity.toLowerCase() === city && optionState === state;
+    });
+
+    market.value = match ? match.value : "";
   }
 
   async function loadListings() {
@@ -234,13 +428,26 @@
 
     const form = document.getElementById("admin-listing-form");
     const list = document.getElementById("admin-listings-list");
+    const market = document.getElementById("listing-market");
+    const city = document.getElementById("listing-city");
+    const state = document.getElementById("listing-state");
+    const coverInput = document.getElementById("listing-cover");
+    const galleryInput = document.getElementById("listing-gallery");
     await loadListings();
+
+    market.addEventListener("change", () => setListingMarket(market.value));
+    city.addEventListener("input", syncListingMarket);
+    state.addEventListener("change", syncListingMarket);
+    coverInput.addEventListener("change", () => renderSelectedCover(coverInput));
+    galleryInput.addEventListener("change", () => renderSelectedGallery(galleryInput));
 
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
-      const data = formData(form);
-      const id = data.id;
-      delete data.id;
+      const data = listingFormData(form);
+      const id = data.get("id");
+      data.delete("id");
+      data.set("country", data.get("country") || "United States");
+      data.set("state", normalizeState(data.get("state")));
       setStatus(dashboardStatus, id ? "Updating listing..." : "Creating listing...", "");
 
       try {
@@ -250,6 +457,8 @@
           await api.createListing(data);
         }
         form.reset();
+        renderCoverPreview("");
+        renderGalleryPreview("", []);
         await loadListings();
         setStatus(dashboardStatus, "Listing saved.", "success");
       } catch (error) {
@@ -272,7 +481,32 @@
       }
     });
 
-    document.getElementById("listing-form-reset").addEventListener("click", () => form.reset());
+    form.addEventListener("click", async (event) => {
+      const imageId = event.target.dataset.deleteListingImage;
+      const listingId = event.target.dataset.listingId;
+
+      if (!imageId || !listingId || !window.confirm("Remove this gallery image?")) {
+        return;
+      }
+
+      try {
+        await api.deleteListingImage(listingId, imageId);
+        await loadListings();
+        const listing = listings.find((item) => String(item.id) === String(listingId));
+        fillListingForm(listing || {});
+        setStatus(dashboardStatus, "Gallery image removed.", "success");
+      } catch (error) {
+        setStatus(dashboardStatus, error.message, "error");
+      }
+    });
+
+    document.getElementById("listing-form-reset").addEventListener("click", () => {
+      form.reset();
+      market.value = "";
+      document.getElementById("listing-country").value = "United States";
+      renderCoverPreview("");
+      renderGalleryPreview("", []);
+    });
   }
 
   function fillAgentForm(agent) {

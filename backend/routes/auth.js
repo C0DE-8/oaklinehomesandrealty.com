@@ -3,7 +3,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 const db = require("../config/db");
-const { requireAdmin } = require("../middleware/authMiddleware");
+const { requireAdmin, requireUser } = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
@@ -140,6 +140,36 @@ router.post("/login", async (req, res, next) => {
       message: "Login successful.",
       token: signAdminToken(admin),
       admin: publicAdmin(freshAdmin),
+    });
+  } catch (error) {
+    return next(error);
+  }
+});
+
+router.post("/from-user-session", requireUser, async (req, res, next) => {
+  try {
+    requireJwtSecret();
+
+    const [rows] = await db.execute(
+      `SELECT id, name, email, phone, role, is_active, created_at, updated_at, last_login_at
+       FROM admins
+       WHERE email = ? AND is_active = 1
+       LIMIT 1`,
+      [normalizeEmail(req.user.email)]
+    );
+
+    const admin = rows[0];
+
+    if (!admin) {
+      return res.status(403).json({ message: "This user account does not have admin access." });
+    }
+
+    await db.execute("UPDATE admins SET last_login_at = CURRENT_TIMESTAMP WHERE id = ?", [admin.id]);
+
+    return res.json({
+      message: "Admin session created.",
+      token: signAdminToken(admin),
+      admin: publicAdmin({ ...admin, last_login_at: new Date() }),
     });
   } catch (error) {
     return next(error);

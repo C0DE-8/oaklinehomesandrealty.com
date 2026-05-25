@@ -23,7 +23,10 @@
       headers,
     };
 
-    if (config.data !== undefined) {
+    if (config.data !== undefined && typeof FormData !== "undefined" && config.data instanceof FormData) {
+      delete headers["Content-Type"];
+      fetchOptions.body = config.data;
+    } else if (config.data !== undefined) {
       headers["Content-Type"] = headers["Content-Type"] || "application/json";
       fetchOptions.body = typeof config.data === "string" ? config.data : JSON.stringify(config.data);
     }

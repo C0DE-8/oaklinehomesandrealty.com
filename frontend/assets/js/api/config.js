@@ -1,5 +1,6 @@
 (function () {
-  const tokenKey = "oakline_admin_token";
+  const adminTokenKey = "oakline_admin_token";
+  const userTokenKey = "oakline_user_token";
   const baseURL = "http://localhost:5000/api";
 
   const client = axios.create({
@@ -10,25 +11,42 @@
   });
 
   function getToken() {
-    return localStorage.getItem(tokenKey);
+    return localStorage.getItem(adminTokenKey);
   }
 
   function setToken(token) {
-    localStorage.setItem(tokenKey, token);
+    localStorage.setItem(adminTokenKey, token);
   }
 
   function clearToken() {
-    localStorage.removeItem(tokenKey);
+    localStorage.removeItem(adminTokenKey);
   }
 
-  async function request(method, url, data) {
+  function getUserToken() {
+    return localStorage.getItem(userTokenKey);
+  }
+
+  function setUserToken(token) {
+    localStorage.setItem(userTokenKey, token);
+  }
+
+  function clearUserToken() {
+    localStorage.removeItem(userTokenKey);
+  }
+
+  async function requestWithToken(method, url, data, token) {
     try {
-      const token = getToken();
+      const headers = token ? { Authorization: `Bearer ${token}` } : {};
+
+      if (!(typeof FormData !== "undefined" && data instanceof FormData)) {
+        headers["Content-Type"] = "application/json";
+      }
+
       const response = await client({
         method,
         url,
         data,
-        headers: token ? { Authorization: `Bearer ${token}` } : {},
+        headers,
       });
 
       return response.data;
@@ -45,11 +63,19 @@
     }
   }
 
+  async function request(method, url, data) {
+    return requestWithToken(method, url, data, getToken());
+  }
+
   window.OaklineApiConfig = {
     baseURL,
     getToken,
     setToken,
     clearToken,
+    getUserToken,
+    setUserToken,
+    clearUserToken,
     request,
+    requestWithToken,
   };
 })();

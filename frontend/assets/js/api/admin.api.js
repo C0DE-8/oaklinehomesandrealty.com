@@ -6,6 +6,10 @@
       return api.request("POST", "/auth/login", payload);
     },
 
+    loginFromUserSession() {
+      return api.requestWithToken("POST", "/auth/from-user-session", null, api.getUserToken());
+    },
+
     register(payload) {
       return api.request("POST", "/auth/register", payload);
     },
@@ -43,6 +47,10 @@
       return api.request("DELETE", `/admin/listings/${id}`);
     },
 
+    deleteListingImage(listingId, imageId) {
+      return api.request("DELETE", `/admin/listings/${listingId}/images/${imageId}`);
+    },
+
     listAgents() {
       return api.request("GET", "/admin/agents");
     },
@@ -62,5 +70,7 @@
     getToken: api.getToken,
     setToken: api.setToken,
     clearToken: api.clearToken,
+    getUserToken: api.getUserToken,
+    baseURL: api.baseURL,
   };
 })();

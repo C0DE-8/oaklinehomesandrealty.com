@@ -37,11 +37,12 @@
           <div class="admin-content">
             <section class="admin-section">
               <h3>Create / Update Listing</h3>
-              <form class="admin-form" id="admin-listing-form">
+              <form class="admin-form" id="admin-listing-form" enctype="multipart/form-data">
                 <input id="listing-id" name="id" type="hidden" />
+                <input id="listing-country" name="country" type="hidden" value="United States" />
                 <div class="admin-field">
                   <label for="listing-title">Title</label>
-                  <input id="listing-title" name="title" type="text" required />
+                  <input id="listing-title" name="title" type="text" autocomplete="off" required />
                 </div>
                 <div class="admin-field">
                   <label for="listing-code">Listing Code</label>
@@ -71,16 +72,141 @@
                   </select>
                 </div>
                 <div class="admin-field">
-                  <label for="listing-address">Address</label>
-                  <input id="listing-address" name="address_line_1" type="text" required />
+                  <label for="listing-market">U.S. Market</label>
+                  <select id="listing-market">
+                    <option value="">Select a market or enter a custom city below</option>
+                    <option value="Houston|TX">Houston, TX</option>
+                    <option value="Las Vegas|NV">Las Vegas, NV</option>
+                    <option value="Miami|FL">Miami, FL</option>
+                    <option value="Dallas|TX">Dallas, TX</option>
+                    <option value="Austin|TX">Austin, TX</option>
+                    <option value="Atlanta|GA">Atlanta, GA</option>
+                    <option value="Charlotte|NC">Charlotte, NC</option>
+                    <option value="Chicago|IL">Chicago, IL</option>
+                    <option value="Los Angeles|CA">Los Angeles, CA</option>
+                    <option value="New York|NY">New York, NY</option>
+                    <option value="Phoenix|AZ">Phoenix, AZ</option>
+                    <option value="San Diego|CA">San Diego, CA</option>
+                    <option value="Seattle|WA">Seattle, WA</option>
+                  </select>
                 </div>
                 <div class="admin-field">
-                  <label for="listing-city">City</label>
-                  <input id="listing-city" name="city" type="text" required />
+                  <label for="listing-address">Street Address</label>
+                  <input
+                    id="listing-address"
+                    name="address_line_1"
+                    type="text"
+                    placeholder="3040 Post Oak Blvd"
+                    autocomplete="address-line1"
+                    required
+                  />
                 </div>
                 <div class="admin-field">
-                  <label for="listing-state">State</label>
-                  <input id="listing-state" name="state" type="text" required />
+                  <label for="listing-address-2">Unit / Suite</label>
+                  <input
+                    id="listing-address-2"
+                    name="address_line_2"
+                    type="text"
+                    placeholder="Apt 1204, Suite 600"
+                    autocomplete="address-line2"
+                  />
+                </div>
+                <div class="admin-field-row">
+                  <div class="admin-field">
+                    <label for="listing-city">City</label>
+                    <input
+                      id="listing-city"
+                      name="city"
+                      type="text"
+                      list="listing-city-options"
+                      placeholder="Houston"
+                      autocomplete="address-level2"
+                      required
+                    />
+                    <datalist id="listing-city-options">
+                      <option value="Houston"></option>
+                      <option value="Las Vegas"></option>
+                      <option value="Miami"></option>
+                      <option value="Dallas"></option>
+                      <option value="Austin"></option>
+                      <option value="Atlanta"></option>
+                      <option value="Charlotte"></option>
+                      <option value="Chicago"></option>
+                      <option value="Los Angeles"></option>
+                      <option value="New York"></option>
+                      <option value="Phoenix"></option>
+                      <option value="San Diego"></option>
+                      <option value="Seattle"></option>
+                    </datalist>
+                  </div>
+                  <div class="admin-field">
+                    <label for="listing-state">State</label>
+                    <select id="listing-state" name="state" autocomplete="address-level1" required>
+                      <option value="">State</option>
+                      <option value="AL">AL</option>
+                      <option value="AK">AK</option>
+                      <option value="AZ">AZ</option>
+                      <option value="AR">AR</option>
+                      <option value="CA">CA</option>
+                      <option value="CO">CO</option>
+                      <option value="CT">CT</option>
+                      <option value="DE">DE</option>
+                      <option value="FL">FL</option>
+                      <option value="GA">GA</option>
+                      <option value="HI">HI</option>
+                      <option value="ID">ID</option>
+                      <option value="IL">IL</option>
+                      <option value="IN">IN</option>
+                      <option value="IA">IA</option>
+                      <option value="KS">KS</option>
+                      <option value="KY">KY</option>
+                      <option value="LA">LA</option>
+                      <option value="ME">ME</option>
+                      <option value="MD">MD</option>
+                      <option value="MA">MA</option>
+                      <option value="MI">MI</option>
+                      <option value="MN">MN</option>
+                      <option value="MS">MS</option>
+                      <option value="MO">MO</option>
+                      <option value="MT">MT</option>
+                      <option value="NE">NE</option>
+                      <option value="NV">NV</option>
+                      <option value="NH">NH</option>
+                      <option value="NJ">NJ</option>
+                      <option value="NM">NM</option>
+                      <option value="NY">NY</option>
+                      <option value="NC">NC</option>
+                      <option value="ND">ND</option>
+                      <option value="OH">OH</option>
+                      <option value="OK">OK</option>
+                      <option value="OR">OR</option>
+                      <option value="PA">PA</option>
+                      <option value="RI">RI</option>
+                      <option value="SC">SC</option>
+                      <option value="SD">SD</option>
+                      <option value="TN">TN</option>
+                      <option value="TX">TX</option>
+                      <option value="UT">UT</option>
+                      <option value="VT">VT</option>
+                      <option value="VA">VA</option>
+                      <option value="WA">WA</option>
+                      <option value="WV">WV</option>
+                      <option value="WI">WI</option>
+                      <option value="WY">WY</option>
+                    </select>
+                  </div>
+                  <div class="admin-field">
+                    <label for="listing-postal-code">ZIP Code</label>
+                    <input
+                      id="listing-postal-code"
+                      name="postal_code"
+                      type="text"
+                      inputmode="numeric"
+                      pattern="[0-9]{5}(-[0-9]{4})?"
+                      placeholder="77056"
+                      autocomplete="postal-code"
+                    />
+                  </div>
                 </div>
                 <div class="admin-field">
                   <label for="listing-price">Price</label>
@@ -99,8 +225,15 @@
                   <input id="listing-square-feet" name="square_feet" type="number" min="0" step="1" />
                 </div>
                 <div class="admin-field">
-                  <label for="listing-cover">Cover Image URL</label>
-                  <input id="listing-cover" name="cover_image_url" type="url" />
+                  <label for="listing-cover">Cover Image</label>
+                  <input id="listing-cover-url" name="cover_image_url" type="hidden" />
+                  <input id="listing-cover" name="cover_image_file" type="file" accept="image/*" />
+                  <div class="admin-image-preview" id="listing-cover-preview"></div>
+                </div>
+                <div class="admin-field">
+                  <label for="listing-gallery">Gallery Images</label>
+                  <input id="listing-gallery" name="gallery_images" type="file" accept="image/*" multiple />
+                  <div class="admin-image-grid" id="listing-gallery-preview"></div>
                 </div>
                 <div class="admin-field">
                   <label for="listing-description">Description</label>
