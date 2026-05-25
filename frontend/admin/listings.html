@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <base href="../" />
+    <title>Listings | Oakline Admin</title>
+    <link rel="icon" href="assets/images/branding/favicon.png" type="image/png" />
+    <link rel="stylesheet" href="assets/css/oakline.css" />
+    <link rel="stylesheet" href="assets/css/admin.css" />
+  </head>
+  <body class="admin-body" data-admin-page="listings">
+    <main class="admin-shell">
+      <section class="admin-brand">
+        <div>
+          <img src="assets/images/branding/main-logo.png" alt="Oakline Homes and Realty" />
+          <h1>Listings</h1>
+          <p>Create, update, and delete real estate listings across U.S. markets.</p>
+        </div>
+        <p class="admin-footnote" id="admin-email-label"></p>
+      </section>
+      <section class="admin-main">
+        <div class="admin-page">
+          <header class="admin-page-header">
+            <div>
+              <h2>Listings</h2>
+              <p class="admin-status" id="dashboard-status"></p>
+            </div>
+            <button class="admin-button secondary" type="button" id="admin-logout">Logout</button>
+          </header>
+          <nav class="admin-nav">
+            <a href="admin/dashboard.html">Dashboard</a>
+            <a href="admin/listings.html" class="is-active">Listings</a>
+            <a href="admin/agents.html">Agents Management</a>
+            <a href="admin/account.html">Account</a>
+          </nav>
+          <div class="admin-content">
+            <section class="admin-section">
+              <h3>Create / Update Listing</h3>
+              <form class="admin-form" id="admin-listing-form">
+                <input id="listing-id" name="id" type="hidden" />
+                <div class="admin-field">
+                  <label for="listing-title">Title</label>
+                  <input id="listing-title" name="title" type="text" required />
+                </div>
+                <div class="admin-field">
+                  <label for="listing-code">Listing Code</label>
+                  <input id="listing-code" name="listing_code" type="text" />
+                </div>
+                <div class="admin-field">
+                  <label for="listing-status">Status</label>
+                  <select id="listing-status" name="status">
+                    <option value="draft">Draft</option>
+                    <option value="active">Active</option>
+                    <option value="pending">Pending</option>
+                    <option value="sold">Sold</option>
+                    <option value="leased">Leased</option>
+                    <option value="archived">Archived</option>
+                  </select>
+                </div>
+                <div class="admin-field">
+                  <label for="listing-type">Property Type</label>
+                  <select id="listing-type" name="property_type">
+                    <option value="apartment">Apartment</option>
+                    <option value="house">House</option>
+                    <option value="townhome">Townhome</option>
+                    <option value="condo">Condo</option>
+                    <option value="land">Land</option>
+                    <option value="commercial">Commercial</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
+                <div class="admin-field">
+                  <label for="listing-address">Address</label>
+                  <input id="listing-address" name="address_line_1" type="text" required />
+                </div>
+                <div class="admin-field">
+                  <label for="listing-city">City</label>
+                  <input id="listing-city" name="city" type="text" required />
+                </div>
+                <div class="admin-field">
+                  <label for="listing-state">State</label>
+                  <input id="listing-state" name="state" type="text" required />
+                </div>
+                <div class="admin-field">
+                  <label for="listing-price">Price</label>
+                  <input id="listing-price" name="price" type="number" min="0" step="1" />
+                </div>
+                <div class="admin-field">
+                  <label for="listing-bedrooms">Bedrooms</label>
+                  <input id="listing-bedrooms" name="bedrooms" type="number" min="0" step="0.5" />
+                </div>
+                <div class="admin-field">
+                  <label for="listing-bathrooms">Bathrooms</label>
+                  <input id="listing-bathrooms" name="bathrooms" type="number" min="0" step="0.5" />
+                </div>
+                <div class="admin-field">
+                  <label for="listing-square-feet">Square Feet</label>
+                  <input id="listing-square-feet" name="square_feet" type="number" min="0" step="1" />
+                </div>
+                <div class="admin-field">
+                  <label for="listing-cover">Cover Image URL</label>
+                  <input id="listing-cover" name="cover_image_url" type="url" />
+                </div>
+                <div class="admin-field">
+                  <label for="listing-description">Description</label>
+                  <textarea id="listing-description" name="description"></textarea>
+                </div>
+                <div class="admin-actions">
+                  <button class="admin-button" type="submit">Save Listing</button>
+                  <button class="admin-button secondary" type="button" id="listing-form-reset">Clear</button>
+                </div>
+              </form>
+            </section>
+            <section class="admin-section">
+              <h3>Saved Listings</h3>
+              <div class="admin-list" id="admin-listings-list"></div>
+            </section>
+          </div>
+        </div>
+      </section>
+    </main>
+    <script src="assets/js/vendor/axios-lite.js"></script>
+    <script src="assets/js/api/config.js"></script>
+    <script src="assets/js/api/admin.api.js"></script>
+    <script src="assets/js/pages/admin.page.js"></script>
+  </body>
+</html>

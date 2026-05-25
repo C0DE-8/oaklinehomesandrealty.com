@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <base href="../" />
+    <title>Agents Management | Oakline Admin</title>
+    <link rel="icon" href="assets/images/branding/favicon.png" type="image/png" />
+    <link rel="stylesheet" href="assets/css/oakline.css" />
+    <link rel="stylesheet" href="assets/css/admin.css" />
+  </head>
+  <body class="admin-body" data-admin-page="agents">
+    <main class="admin-shell">
+      <section class="admin-brand">
+        <div>
+          <img src="assets/images/branding/main-logo.png" alt="Oakline Homes and Realty" />
+          <h1>Agents Management</h1>
+          <p>Create, update, and remove Oakline agent profiles.</p>
+        </div>
+        <p class="admin-footnote" id="admin-email-label"></p>
+      </section>
+      <section class="admin-main">
+        <div class="admin-page">
+          <header class="admin-page-header">
+            <div>
+              <h2>Agents Management</h2>
+              <p class="admin-status" id="dashboard-status"></p>
+            </div>
+            <button class="admin-button secondary" type="button" id="admin-logout">Logout</button>
+          </header>
+          <nav class="admin-nav">
+            <a href="admin/dashboard.html">Dashboard</a>
+            <a href="admin/listings.html">Listings</a>
+            <a href="admin/agents.html" class="is-active">Agents Management</a>
+            <a href="admin/account.html">Account</a>
+          </nav>
+          <div class="admin-content">
+            <section class="admin-section">
+              <h3>Create / Update Agent</h3>
+              <form class="admin-form" id="admin-agent-form">
+                <input id="agent-id" name="id" type="hidden" />
+                <div class="admin-field">
+                  <label for="agent-name">Name</label>
+                  <input id="agent-name" name="name" type="text" required />
+                </div>
+                <div class="admin-field">
+                  <label for="agent-email">Email</label>
+                  <input id="agent-email" name="email" type="email" required />
+                </div>
+                <div class="admin-field">
+                  <label for="agent-phone">Phone</label>
+                  <input id="agent-phone" name="phone" type="tel" />
+                </div>
+                <div class="admin-field">
+                  <label for="agent-market">Market</label>
+                  <input id="agent-market" name="market" type="text" placeholder="United States, Las Vegas, Miami..." />
+                </div>
+                <div class="admin-field">
+                  <label for="agent-title">Title</label>
+                  <input id="agent-title" name="title" type="text" />
+                </div>
+                <div class="admin-field">
+                  <label for="agent-photo">Photo URL</label>
+                  <input id="agent-photo" name="photo_url" type="url" />
+                </div>
+                <div class="admin-field">
+                  <label for="agent-bio">Bio</label>
+                  <textarea id="agent-bio" name="bio"></textarea>
+                </div>
+                <div class="admin-actions">
+                  <button class="admin-button" type="submit">Save Agent</button>
+                  <button class="admin-button secondary" type="button" id="agent-form-reset">Clear</button>
+                </div>
+              </form>
+            </section>
+            <section class="admin-section">
+              <h3>Agents</h3>
+              <div class="admin-list" id="admin-agents-list"></div>
+            </section>
+          </div>
+        </div>
+      </section>
+    </main>
+    <script src="assets/js/vendor/axios-lite.js"></script>
+    <script src="assets/js/api/config.js"></script>
+    <script src="assets/js/api/admin.api.js"></script>
+    <script src="assets/js/pages/admin.page.js"></script>
+  </body>
+</html>

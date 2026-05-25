@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <base href="../" />
+    <title>Account | Oakline Admin</title>
+    <link rel="icon" href="assets/images/branding/favicon.png" type="image/png" />
+    <link rel="stylesheet" href="assets/css/oakline.css" />
+    <link rel="stylesheet" href="assets/css/admin.css" />
+  </head>
+  <body class="admin-body" data-admin-page="account">
+    <main class="admin-shell">
+      <section class="admin-brand">
+        <div>
+          <img src="assets/images/branding/main-logo.png" alt="Oakline Homes and Realty" />
+          <h1>Account</h1>
+          <p>Manage your admin profile and password.</p>
+        </div>
+        <p class="admin-footnote" id="admin-email-label"></p>
+      </section>
+      <section class="admin-main">
+        <div class="admin-page">
+          <header class="admin-page-header">
+            <div>
+              <h2>Account</h2>
+              <p class="admin-status" id="dashboard-status"></p>
+            </div>
+            <button class="admin-button secondary" type="button" id="admin-logout">Logout</button>
+          </header>
+          <nav class="admin-nav">
+            <a href="admin/dashboard.html">Dashboard</a>
+            <a href="admin/listings.html">Listings</a>
+            <a href="admin/agents.html">Agents Management</a>
+            <a href="admin/account.html" class="is-active">Account</a>
+          </nav>
+          <div class="admin-content">
+            <section class="admin-section">
+              <h3>Profile</h3>
+              <form class="admin-form" id="admin-profile-form">
+                <div class="admin-field">
+                  <label for="profile-name">Name</label>
+                  <input id="profile-name" name="name" type="text" required />
+                </div>
+                <div class="admin-field">
+                  <label for="profile-phone">Phone</label>
+                  <input id="profile-phone" name="phone" type="tel" />
+                </div>
+                <div class="admin-actions">
+                  <button class="admin-button" type="submit">Save Profile</button>
+                </div>
+              </form>
+            </section>
+            <section class="admin-section">
+              <h3>Password</h3>
+              <form class="admin-form" id="admin-password-form">
+                <div class="admin-field">
+                  <label for="current-password">Current Password</label>
+                  <input id="current-password" name="currentPassword" type="password" autocomplete="current-password" required />
+                </div>
+                <div class="admin-field">
+                  <label for="new-password">New Password</label>
+                  <input id="new-password" name="newPassword" type="password" autocomplete="new-password" required />
+                </div>
+                <div class="admin-actions">
+                  <button class="admin-button" type="submit">Update Password</button>
+                </div>
+              </form>
+            </section>
+          </div>
+        </div>
+      </section>
+    </main>
+    <script src="assets/js/vendor/axios-lite.js"></script>
+    <script src="assets/js/api/config.js"></script>
+    <script src="assets/js/api/admin.api.js"></script>
+    <script src="assets/js/pages/admin.page.js"></script>
+  </body>
+</html>
