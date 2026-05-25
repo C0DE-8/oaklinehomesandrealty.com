@@ -80,11 +80,28 @@ CREATE TABLE `leads` (
   `last_name` varchar(80) DEFAULT NULL,
   `email` varchar(190) NOT NULL,
   `phone` varchar(40) DEFAULT NULL,
+  `market` varchar(120) DEFAULT NULL,
+  `branch` varchar(40) DEFAULT NULL,
+  `bedrooms` varchar(20) DEFAULT NULL,
+  `extra_room` tinyint(1) NOT NULL DEFAULT 0,
+  `bathrooms` varchar(20) DEFAULT NULL,
+  `max_budget` decimal(12,2) DEFAULT NULL,
+  `move_date` date DEFAULT NULL,
+  `lease_term` varchar(40) DEFAULT NULL,
+  `credit` varchar(80) DEFAULT NULL,
+  `background` varchar(120) DEFAULT NULL,
+  `instagram` varchar(120) DEFAULT NULL,
+  `referral` varchar(120) DEFAULT NULL,
+  `feature_requests` text DEFAULT NULL,
+  `page_url` varchar(500) DEFAULT NULL,
+  `utm_source` varchar(120) DEFAULT NULL,
+  `utm_medium` varchar(120) DEFAULT NULL,
+  `utm_campaign` varchar(180) DEFAULT NULL,
   `message` text DEFAULT NULL,
   `source` varchar(80) DEFAULT NULL,
   `status` enum('new','contacted','qualified','closed','lost') NOT NULL DEFAULT 'new',
   `property_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `assigned_admin_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `assigned_agent_id` bigint(20) UNSIGNED DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -181,7 +198,7 @@ ALTER TABLE `leads`
   ADD KEY `idx_leads_status` (`status`),
   ADD KEY `idx_leads_email` (`email`),
   ADD KEY `idx_leads_property` (`property_id`),
-  ADD KEY `fk_leads_assigned_admin` (`assigned_admin_id`);
+  ADD KEY `idx_leads_assigned_agent` (`assigned_agent_id`);
 
 --
 -- Indexes for table `properties`
@@ -264,7 +281,7 @@ ALTER TABLE `agents`
 -- Constraints for table `leads`
 --
 ALTER TABLE `leads`
-  ADD CONSTRAINT `fk_leads_assigned_admin` FOREIGN KEY (`assigned_admin_id`) REFERENCES `admins` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_leads_assigned_agent` FOREIGN KEY (`assigned_agent_id`) REFERENCES `agents` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_leads_property` FOREIGN KEY (`property_id`) REFERENCES `properties` (`id`) ON DELETE SET NULL;
 
 --

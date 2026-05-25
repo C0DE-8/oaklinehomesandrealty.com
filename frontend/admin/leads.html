@@ -4,54 +4,54 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <base href="../" />
-    <title>Dashboard | Oakline Admin</title>
+    <title>Leads | Oakline Admin</title>
     <link rel="icon" href="assets/images/branding/favicon.png" type="image/png" />
     <link rel="stylesheet" href="assets/css/oakline.css" />
     <link rel="stylesheet" href="assets/css/admin.css" />
   </head>
-  <body class="admin-body" data-admin-page="dashboard">
+  <body class="admin-body" data-admin-page="leads">
     <main class="admin-shell">
       <section class="admin-brand">
         <div>
           <img src="assets/images/branding/main-logo.png" alt="Oakline Homes and Realty" />
-          <h1>Dashboard</h1>
-          <p id="admin-email-label">Loading account...</p>
+          <h1>Leads</h1>
+          <p>Review Get Started form submissions and track follow-up status.</p>
         </div>
-        <p class="admin-footnote">Oakline Homes and Realty admin.</p>
+        <p class="admin-footnote" id="admin-email-label"></p>
       </section>
       <section class="admin-main">
         <div class="admin-page">
           <header class="admin-page-header">
             <div>
-              <h2 id="dashboard-title">Dashboard</h2>
+              <h2>Leads</h2>
               <p class="admin-status" id="dashboard-status"></p>
             </div>
             <button class="admin-button secondary" type="button" id="admin-logout">Logout</button>
           </header>
           <nav class="admin-nav">
-            <a href="admin/dashboard.html" class="is-active">Dashboard</a>
+            <a href="admin/dashboard.html">Dashboard</a>
             <a href="admin/listings.html">Listings</a>
-            <a href="admin/leads.html">Leads</a>
+            <a href="admin/leads.html" class="is-active">Leads</a>
             <a href="admin/agents.html">Agents Management</a>
             <a href="admin/account.html">Account</a>
           </nav>
           <div class="admin-content">
             <section class="admin-section full">
-              <h3>Overview</h3>
-              <div class="metric-grid">
-                <div class="metric">
-                  <strong id="metric-active-listings">0</strong>
-                  <span>Active Listings</span>
-                </div>
-                <div class="metric">
-                  <strong id="metric-new-leads">0</strong>
-                  <span>New Leads</span>
-                </div>
-                <div class="metric">
-                  <strong id="metric-saved-users">0</strong>
-                  <span>Saved Users</span>
-                </div>
+              <div class="admin-section-header">
+                <h3>Get Started Submissions</h3>
+                <label class="admin-inline-filter" for="lead-status-filter">
+                  Status
+                  <select id="lead-status-filter">
+                    <option value="">All</option>
+                    <option value="new">New</option>
+                    <option value="contacted">Contacted</option>
+                    <option value="qualified">Qualified</option>
+                    <option value="closed">Closed</option>
+                    <option value="lost">Lost</option>
+                  </select>
+                </label>
               </div>
+              <div class="admin-list" id="admin-leads-list"></div>
             </section>
           </div>
         </div>

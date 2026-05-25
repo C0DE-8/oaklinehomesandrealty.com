@@ -109,23 +109,78 @@
       }
 
       .application-fee-notice {
-        z-index: 999;
+        z-index: 1001;
         position: fixed;
-        right: 20px;
-        bottom: 20px;
-        width: min(380px, calc(100vw - 40px));
-        max-height: calc(100vh - 120px);
+        top: 50%;
+        left: 50%;
+        width: min(520px, calc(100vw - 32px));
+        max-height: min(78vh, 640px);
         overflow: auto;
         color: #17231c;
         background: #ffffff;
         border: 1px solid rgba(18, 53, 37, 0.16);
         border-radius: 8px;
-        box-shadow: 0 18px 50px rgba(18, 53, 37, 0.18);
-        padding: 18px;
+        box-shadow: 0 24px 70px rgba(18, 53, 37, 0.26);
+        padding: 22px;
+        opacity: 0;
+        pointer-events: none;
+        transform: translate(-50%, -46%) scale(0.98);
+        transition:
+          opacity 180ms ease,
+          transform 180ms ease;
       }
 
-      .application-fee-notice.is-hidden {
-        display: none;
+      .application-fee-notice.is-open {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translate(-50%, -50%) scale(1);
+      }
+
+      .application-fee-notice-backdrop {
+        z-index: 1000;
+        position: fixed;
+        inset: 0;
+        background: rgba(18, 35, 28, 0.42);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 180ms ease;
+      }
+
+      .application-fee-notice-backdrop.is-open {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .application-fee-notice-button {
+        z-index: 999;
+        position: fixed;
+        right: 20px;
+        bottom: 20px;
+        min-height: 46px;
+        border: 1px solid rgba(18, 53, 37, 0.16);
+        border-radius: 999px;
+        padding: 10px 16px;
+        color: #ffffff;
+        background: #468c50;
+        box-shadow: 0 14px 36px rgba(18, 53, 37, 0.22);
+        font-weight: 800;
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(8px);
+        transition:
+          opacity 180ms ease,
+          transform 180ms ease,
+          background 180ms ease;
+      }
+
+      .application-fee-notice-button.is-visible {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateY(0);
+      }
+
+      .application-fee-notice-button:hover {
+        background: #5fa764;
       }
 
       .application-fee-notice-header {
@@ -193,12 +248,14 @@
 
       @media screen and (max-width: 767px) {
         .application-fee-notice {
-          left: 12px;
+          width: calc(100vw - 24px);
+          max-height: 76vh;
+          padding: 16px;
+        }
+
+        .application-fee-notice-button {
           right: 12px;
           bottom: 12px;
-          width: auto;
-          max-height: 55vh;
-          padding: 16px;
         }
       }
     </style>
@@ -218,9 +275,16 @@
     </script>
   </head>
   <body>
+    <div
+      class="application-fee-notice-backdrop"
+      id="application-fee-notice-backdrop"
+      aria-hidden="true"
+    ></div>
     <aside
       class="application-fee-notice"
       id="application-fee-notice"
+      role="dialog"
+      aria-modal="true"
       aria-label="Application fee and holding fee notice"
     >
       <div class="application-fee-notice-header">
@@ -257,6 +321,14 @@
         </ul>
       </div>
     </aside>
+    <button
+      class="application-fee-notice-button"
+      type="button"
+      id="application-fee-notice-button"
+      aria-label="Show application fee notice"
+    >
+      Fee Notice
+    </button>
     <div
       data-collapse="medium"
       data-animation="default"
@@ -1918,19 +1990,41 @@
     <script>
       (function () {
         var notice = document.getElementById("application-fee-notice");
+        var backdrop = document.getElementById("application-fee-notice-backdrop");
+        var noticeButton = document.getElementById("application-fee-notice-button");
         var close = document.getElementById("application-fee-notice-close");
 
-        if (!notice || !close) {
+        if (!notice || !backdrop || !noticeButton || !close) {
           return;
         }
 
-        if (sessionStorage.getItem("oakline_application_fee_notice_closed") === "1") {
-          notice.classList.add("is-hidden");
+        function openNotice() {
+          notice.classList.add("is-open");
+          backdrop.classList.add("is-open");
         }
 
-        close.addEventListener("click", function () {
-          notice.classList.add("is-hidden");
+        function closeNotice() {
+          notice.classList.remove("is-open");
+          backdrop.classList.remove("is-open");
           sessionStorage.setItem("oakline_application_fee_notice_closed", "1");
+        }
+
+        window.setTimeout(function () {
+          noticeButton.classList.add("is-visible");
+
+          if (sessionStorage.getItem("oakline_application_fee_notice_closed") !== "1") {
+            openNotice();
+          }
+        }, 3000);
+
+        noticeButton.addEventListener("click", openNotice);
+        close.addEventListener("click", closeNotice);
+        backdrop.addEventListener("click", closeNotice);
+
+        document.addEventListener("keydown", function (event) {
+          if (event.key === "Escape") {
+            closeNotice();
+          }
         });
       })();
     </script>

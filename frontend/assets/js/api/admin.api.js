@@ -51,6 +51,15 @@
       return api.request("DELETE", `/admin/listings/${listingId}/images/${imageId}`);
     },
 
+    listLeads(params) {
+      const query = params ? `?${new URLSearchParams(params).toString()}` : "";
+      return api.request("GET", `/admin/leads${query}`);
+    },
+
+    updateLead(id, payload) {
+      return api.request("PATCH", `/admin/leads/${id}`, payload);
+    },
+
     listAgents() {
       return api.request("GET", "/admin/agents");
     },

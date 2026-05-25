@@ -457,7 +457,7 @@
           id="email-form"
           name="email-form"
           data-name="Email Form"
-          action="https://usebasin.com/f/5a30458c5152"
+          action="http://localhost:5000/api/leads"
           method="post"
           class="fancy-form"
           data-wf-page-id="60bc46fbe8d8f047980af188"
@@ -2108,6 +2108,127 @@
           $(".fancy-form-success-trigger").click();
         }, 1000);
       });
+    </script>
+    <script>
+      (function () {
+        var form = document.querySelector("#fancy-form form.fancy-form");
+        var apiBase = "http://localhost:5000/api";
+        var branchLabels = {
+          1: "United States",
+          2: "Dallas/Fort Worth",
+          3: "Austin",
+        };
+
+        if (!form) {
+          return;
+        }
+
+        function value(formData, name) {
+          return String(formData.get(name) || "").trim();
+        }
+
+        function showMessage(type, message) {
+          if (window.showOaklineToast) {
+            window.showOaklineToast(message, type);
+          }
+        }
+
+        function showSuccess() {
+          var container = document.querySelector("#fancy-form");
+          var done = container ? container.querySelector(".w-form-done") : null;
+          var fail = container ? container.querySelector(".w-form-fail") : null;
+
+          form.style.display = "none";
+
+          if (done) {
+            done.style.display = "block";
+          }
+
+          if (fail) {
+            fail.style.display = "none";
+          }
+
+          setTimeout(function () {
+            var trigger = document.querySelector(".fancy-form-success-trigger");
+            if (trigger) {
+              trigger.click();
+            }
+          }, 100);
+        }
+
+        function showFailure(message) {
+          var container = document.querySelector("#fancy-form");
+          var fail = container ? container.querySelector(".w-form-fail") : null;
+
+          if (fail) {
+            fail.style.display = "block";
+          }
+
+          showMessage("error", message || "Something went wrong. Please try again in a moment.");
+        }
+
+        function payloadFromForm() {
+          var formData = new FormData(form);
+          var branch = value(formData, "branch");
+
+          return {
+            firstName: value(formData, "first-name"),
+            lastName: value(formData, "last-name"),
+            phone: value(formData, "phone"),
+            email: value(formData, "email"),
+            market: branchLabels[branch] || branch,
+            branch: branch,
+            bedrooms: value(formData, "bedrooms"),
+            extraRoom: formData.has("extra-room"),
+            bathrooms: value(formData, "bathrooms"),
+            maxBudget: value(formData, "max-budget"),
+            moveDate: value(formData, "move-date"),
+            leaseTerm: value(formData, "lease-term"),
+            credit: value(formData, "credit"),
+            background: value(formData, "background"),
+            instagram: value(formData, "instagram"),
+            referral: value(formData, "referral"),
+            featureRequests: value(formData, "feature-requests"),
+            pageUrl: value(formData, "page-url") || window.location.href,
+            utmSource: value(formData, "utm_source"),
+            utmMedium: value(formData, "utm_medium"),
+            utmCampaign: value(formData, "utm_campaign"),
+          };
+        }
+
+        form.addEventListener(
+          "submit",
+          function (event) {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+
+            fetch(apiBase + "/leads", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(payloadFromForm()),
+            })
+              .then(function (response) {
+                return response.json().then(function (data) {
+                  if (!response.ok) {
+                    throw new Error(data.message || "Unable to send your request.");
+                  }
+
+                  return data;
+                });
+              })
+              .then(function (data) {
+                showSuccess();
+                showMessage("success", data.message || "Thanks, our team is on it!");
+              })
+              .catch(function (error) {
+                showFailure(error.message);
+              });
+          },
+          true
+        );
+      })();
     </script>
   </body>
   <!-- Mirrored from www.oaklinehomesrealty.com/get-started by c0de8 Website Copier/3.x [XR&CO'2017], Fri, 22 May 2026 07:31:38 GMT -->

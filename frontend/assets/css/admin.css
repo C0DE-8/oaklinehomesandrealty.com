@@ -194,6 +194,36 @@ body.admin-body {
   letter-spacing: 0;
 }
 
+.admin-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+.admin-section-header h3 {
+  margin: 0;
+}
+
+.admin-inline-filter {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--admin-muted);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.admin-inline-filter select {
+  min-height: 38px;
+  border: 1px solid var(--admin-line);
+  border-radius: 7px;
+  padding: 8px 10px;
+  color: var(--admin-ink);
+  background: #fff;
+}
+
 .admin-form {
   display: grid;
   gap: 14px;
@@ -397,6 +427,67 @@ body.admin-body {
   line-height: 1.2;
 }
 
+.admin-lead-item {
+  align-items: start;
+}
+
+.admin-lead-message {
+  max-height: 220px;
+  overflow: auto;
+  margin: 10px 0 0;
+  border: 1px solid var(--admin-line);
+  border-radius: 7px;
+  padding: 10px;
+  color: var(--admin-ink);
+  background: var(--admin-green-soft);
+  font-family: inherit;
+  font-size: 13px;
+  line-height: 1.55;
+  white-space: pre-wrap;
+}
+
+.admin-lead-details {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin: 12px 0 0;
+}
+
+.admin-lead-details div {
+  border: 1px solid var(--admin-line);
+  border-radius: 7px;
+  padding: 8px;
+  background: var(--admin-green-soft);
+}
+
+.admin-lead-details dt {
+  margin: 0 0 3px;
+  color: var(--admin-muted);
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.admin-lead-details dd {
+  margin: 0;
+  color: var(--admin-ink);
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+.admin-lead-actions {
+  align-items: stretch;
+}
+
+.admin-lead-actions select {
+  min-height: 34px;
+  border: 1px solid var(--admin-line);
+  border-radius: 7px;
+  padding: 6px 8px;
+  color: var(--admin-ink);
+  background: #fff;
+}
+
 @media (max-width: 860px) {
   .admin-shell {
     min-height: 100dvh;
@@ -500,6 +591,16 @@ body.admin-body {
     padding: 16px;
   }
 
+  .admin-section-header {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .admin-inline-filter {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
   .admin-field input,
   .admin-field select,
   .admin-field textarea {
@@ -523,6 +624,10 @@ body.admin-body {
   .admin-list-actions {
     align-items: stretch;
     width: 100%;
+  }
+
+  .admin-lead-details {
+    grid-template-columns: 1fr;
   }
 
   .admin-mini-button {

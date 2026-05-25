@@ -58,6 +58,7 @@
   };
   let listings = [];
   let agents = [];
+  let leads = [];
 
   function setStatus(element, message, type) {
     if (!element) {
@@ -166,6 +167,23 @@
     }
   }
 
+  function escapeHtml(value) {
+    const div = document.createElement("div");
+    div.textContent = value == null ? "" : String(value);
+    return div.innerHTML;
+  }
+
+  function formatDate(value) {
+    if (!value) {
+      return "";
+    }
+
+    const date = new Date(value);
+    return Number.isNaN(date.getTime())
+      ? String(value)
+      : date.toLocaleString([], { dateStyle: "medium", timeStyle: "short" });
+  }
+
   function renderListings() {
     const list = document.getElementById("admin-listings-list");
     if (!list) {
@@ -233,6 +251,71 @@
           </div>
         `
       )
+      .join("");
+  }
+
+  function renderLeads() {
+    const list = document.getElementById("admin-leads-list");
+    if (!list) {
+      return;
+    }
+
+    if (!leads.length) {
+      list.innerHTML = '<p class="admin-status">No Get Started submissions yet.</p>';
+      return;
+    }
+
+    list.innerHTML = leads
+      .map((lead) => {
+        const name = [lead.first_name, lead.last_name].filter(Boolean).join(" ");
+        const source = lead.source ? ` - ${lead.source}` : "";
+        const leadDetails = [
+          ["Market", lead.market],
+          ["Bedrooms", lead.bedrooms],
+          ["Extra room", lead.extra_room ? "Yes" : "No"],
+          ["Bathrooms", lead.bathrooms],
+          ["Max budget", lead.max_budget ? `$${Number(lead.max_budget).toLocaleString()}` : ""],
+          ["Move date", lead.move_date ? String(lead.move_date).slice(0, 10) : ""],
+          ["Lease term", lead.lease_term],
+          ["Credit", lead.credit],
+          ["Background", lead.background],
+          ["Instagram", lead.instagram],
+          ["Referral", lead.referral],
+          ["Feature requests", lead.feature_requests],
+        ].filter(([, value]) => value !== undefined && value !== null && String(value).trim() !== "");
+
+        return `
+          <div class="admin-list-item admin-lead-item">
+            <div>
+              <strong>${escapeHtml(name || "New lead")}</strong>
+              <span>${escapeHtml(lead.email || "")} - ${escapeHtml(lead.phone || "No phone")}${escapeHtml(source)}</span>
+              <span>${escapeHtml(formatDate(lead.created_at))}</span>
+              <dl class="admin-lead-details">
+                ${leadDetails
+                  .map(([label, value]) => `<div><dt>${escapeHtml(label)}</dt><dd>${escapeHtml(value)}</dd></div>`)
+                  .join("")}
+              </dl>
+            </div>
+            <div class="admin-list-actions admin-lead-actions">
+              <select data-lead-agent="${lead.id}">
+                <option value="">No agent assigned</option>
+                ${agents
+                  .map(
+                    (agent) =>
+                      `<option value="${agent.id}"${String(lead.assigned_agent_id || "") === String(agent.id) ? " selected" : ""}>${escapeHtml(agent.name)}</option>`
+                  )
+                  .join("")}
+              </select>
+              <select data-lead-status="${lead.id}">
+                ${["new", "contacted", "qualified", "closed", "lost"]
+                  .map((statusName) => `<option value="${statusName}"${lead.status === statusName ? " selected" : ""}>${statusName}</option>`)
+                  .join("")}
+              </select>
+              <button class="admin-mini-button" type="button" data-save-lead="${lead.id}">Save</button>
+            </div>
+          </div>
+        `;
+      })
       .join("");
   }
 
@@ -537,6 +620,61 @@
     renderAgents();
   }
 
+  async function loadLeads() {
+    const statusFilter = document.getElementById("lead-status-filter");
+    const statusValue = statusFilter ? statusFilter.value : "";
+    const data = await api.listLeads(statusValue ? { status: statusValue } : null);
+    leads = data.leads || [];
+    renderLeads();
+  }
+
+  async function initLeads() {
+    if (!(await requireAdmin())) {
+      return;
+    }
+
+    const list = document.getElementById("admin-leads-list");
+    const filter = document.getElementById("lead-status-filter");
+    const agentData = await api.listAgents();
+    agents = agentData.agents || [];
+    await loadLeads();
+
+    if (filter) {
+      filter.addEventListener("change", async () => {
+        setStatus(dashboardStatus, "Loading leads...", "");
+        try {
+          await loadLeads();
+          setStatus(dashboardStatus, "", "");
+        } catch (error) {
+          setStatus(dashboardStatus, error.message, "error");
+        }
+      });
+    }
+
+    list.addEventListener("click", async (event) => {
+      const leadId = event.target.dataset.saveLead;
+
+      if (!leadId) {
+        return;
+      }
+
+      const statusSelect = list.querySelector(`[data-lead-status="${leadId}"]`);
+      const agentSelect = list.querySelector(`[data-lead-agent="${leadId}"]`);
+      setStatus(dashboardStatus, "Updating lead...", "");
+
+      try {
+        await api.updateLead(leadId, {
+          status: statusSelect.value,
+          assigned_agent_id: agentSelect.value || null,
+        });
+        await loadLeads();
+        setStatus(dashboardStatus, "Lead updated.", "success");
+      } catch (error) {
+        setStatus(dashboardStatus, error.message, "error");
+      }
+    });
+  }
+
   async function initAgents() {
     if (!(await requireAdmin())) {
       return;
@@ -630,6 +768,8 @@
     initDashboard();
   } else if (page === "listings") {
     initListings();
+  } else if (page === "leads") {
+    initLeads();
   } else if (page === "agents") {
     initAgents();
   } else if (page === "account") {
