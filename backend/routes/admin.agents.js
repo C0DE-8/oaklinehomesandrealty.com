@@ -1,9 +1,51 @@
 const express = require("express");
+const fs = require("fs");
+const path = require("path");
+const multer = require("multer");
 
 const db = require("../config/db");
 const { requireAdmin } = require("../middleware/authMiddleware");
 
 const router = express.Router();
+const uploadRoot = path.join(__dirname, "..", "uploads", "agents");
+const allowedImageTypes = new Set(["image/jpeg", "image/png", "image/webp", "image/gif"]);
+
+fs.mkdirSync(uploadRoot, { recursive: true });
+
+const upload = multer({
+  storage: multer.diskStorage({
+    destination(req, file, cb) {
+      cb(null, uploadRoot);
+    },
+    filename(req, file, cb) {
+      const extension = path.extname(file.originalname || "").toLowerCase();
+      const safeExtension = extension && extension.length <= 8 ? extension : ".jpg";
+      cb(null, `${Date.now()}-${Math.round(Math.random() * 1e9)}${safeExtension}`);
+    },
+  }),
+  limits: {
+    fileSize: 4 * 1024 * 1024,
+    files: 1,
+  },
+  fileFilter(req, file, cb) {
+    if (!allowedImageTypes.has(file.mimetype)) {
+      return cb(new Error("Only JPG, PNG, WebP, and GIF images can be uploaded."));
+    }
+
+    return cb(null, true);
+  },
+});
+
+function handleAgentUpload(req, res, next) {
+  upload.single("photo_file")(req, res, (error) => {
+    if (error) {
+      error.statusCode = 400;
+      return next(error);
+    }
+
+    return next();
+  });
+}
 
 function cleanString(value) {
   return typeof value === "string" ? value.trim() : "";
@@ -14,7 +56,11 @@ function nullableString(value) {
   return cleaned || null;
 }
 
-function agentPayload(body, adminId) {
+function uploadedPhotoUrl(file) {
+  return file ? `/uploads/agents/${file.filename}` : null;
+}
+
+function agentPayload(body, adminId, file) {
   const name = cleanString(body.name);
   const email = cleanString(body.email).toLowerCase();
 
@@ -31,7 +77,7 @@ function agentPayload(body, adminId) {
     market: nullableString(body.market),
     title: nullableString(body.title),
     bio: nullableString(body.bio),
-    photo_url: nullableString(body.photo_url || body.photoUrl),
+    photo_url: uploadedPhotoUrl(file) || nullableString(body.photo_url || body.photoUrl),
     is_active: body.is_active === false || body.is_active === "0" ? 0 : 1,
     created_by: adminId,
   };
@@ -66,9 +112,9 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-router.post("/", async (req, res, next) => {
+router.post("/", handleAgentUpload, async (req, res, next) => {
   try {
-    const payload = agentPayload(req.body, req.admin.id);
+    const payload = agentPayload(req.body, req.admin.id, req.file);
 
     const [result] = await db.execute(
       `INSERT INTO agents
@@ -87,7 +133,7 @@ router.post("/", async (req, res, next) => {
   }
 });
 
-router.patch("/:id", async (req, res, next) => {
+router.patch("/:id", handleAgentUpload, async (req, res, next) => {
   try {
     const existing = await readAgent(req.params.id);
 
@@ -95,7 +141,7 @@ router.patch("/:id", async (req, res, next) => {
       return res.status(404).json({ message: "Agent not found." });
     }
 
-    const payload = agentPayload({ ...existing, ...req.body }, existing.created_by || req.admin.id);
+    const payload = agentPayload({ ...existing, ...req.body }, existing.created_by || req.admin.id, req.file);
 
     await db.execute(
       `UPDATE agents

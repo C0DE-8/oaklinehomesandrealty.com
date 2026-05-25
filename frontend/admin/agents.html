@@ -38,7 +38,7 @@
           <div class="admin-content">
             <section class="admin-section">
               <h3>Create / Update Agent</h3>
-              <form class="admin-form" id="admin-agent-form">
+              <form class="admin-form" id="admin-agent-form" enctype="multipart/form-data">
                 <input id="agent-id" name="id" type="hidden" />
                 <div class="admin-field">
                   <label for="agent-name">Name</label>
@@ -61,8 +61,10 @@
                   <input id="agent-title" name="title" type="text" />
                 </div>
                 <div class="admin-field">
-                  <label for="agent-photo">Photo URL</label>
-                  <input id="agent-photo" name="photo_url" type="url" />
+                  <label for="agent-photo-file">Photo</label>
+                  <input id="agent-photo" name="photo_url" type="hidden" />
+                  <input id="agent-photo-file" name="photo_file" type="file" accept="image/*" />
+                  <div class="admin-image-preview" id="agent-photo-preview"></div>
                 </div>
                 <div class="admin-field">
                   <label for="agent-bio">Bio</label>

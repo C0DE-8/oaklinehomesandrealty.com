@@ -243,6 +243,11 @@
             <div>
               <strong>${agent.name}</strong>
               <span>${agent.email} - ${agent.market || "United States"} - ${agent.is_active ? "Active" : "Inactive"}</span>
+              ${
+                agent.photo_url
+                  ? `<div class="admin-feature-list"><span>Photo uploaded</span></div>`
+                  : ""
+              }
             </div>
             <div class="admin-list-actions">
               <button class="admin-mini-button" type="button" data-edit-agent="${agent.id}">Edit</button>
@@ -611,7 +616,43 @@
     document.getElementById("agent-market").value = agent.market || "";
     document.getElementById("agent-title").value = agent.title || "";
     document.getElementById("agent-photo").value = agent.photo_url || "";
+    document.getElementById("agent-photo-file").value = "";
+    renderAgentPhotoPreview(agent.photo_url);
     document.getElementById("agent-bio").value = agent.bio || "";
+  }
+
+  function agentFormData(form) {
+    const data = new FormData(form);
+
+    Array.from(data.entries()).forEach(([key, value]) => {
+      if (value === "" || (typeof File !== "undefined" && value instanceof File && !value.name)) {
+        data.delete(key);
+      }
+    });
+
+    return data;
+  }
+
+  function renderAgentPhotoPreview(imageUrl) {
+    const preview = document.getElementById("agent-photo-preview");
+
+    if (!preview) {
+      return;
+    }
+
+    preview.innerHTML = imageUrl
+      ? `<div class="admin-image-thumb"><img src="${absoluteApiUrl(imageUrl)}" alt="Agent photo"></div>`
+      : "";
+  }
+
+  function renderSelectedAgentPhoto(fileInput) {
+    const file = fileInput.files && fileInput.files[0];
+
+    if (!file) {
+      return;
+    }
+
+    renderAgentPhotoPreview(URL.createObjectURL(file));
   }
 
   async function loadAgents() {
@@ -682,13 +723,16 @@
 
     const form = document.getElementById("admin-agent-form");
     const list = document.getElementById("admin-agents-list");
+    const photoInput = document.getElementById("agent-photo-file");
     await loadAgents();
+
+    photoInput.addEventListener("change", () => renderSelectedAgentPhoto(photoInput));
 
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
-      const data = formData(form);
-      const id = data.id;
-      delete data.id;
+      const data = agentFormData(form);
+      const id = data.get("id");
+      data.delete("id");
       setStatus(dashboardStatus, id ? "Updating agent..." : "Creating agent...", "");
 
       try {
@@ -698,6 +742,7 @@
           await api.createAgent(data);
         }
         form.reset();
+        renderAgentPhotoPreview("");
         await loadAgents();
         setStatus(dashboardStatus, "Agent saved.", "success");
       } catch (error) {
@@ -720,7 +765,10 @@
       }
     });
 
-    document.getElementById("agent-form-reset").addEventListener("click", () => form.reset());
+    document.getElementById("agent-form-reset").addEventListener("click", () => {
+      form.reset();
+      renderAgentPhotoPreview("");
+    });
   }
 
   async function initAccount() {
