@@ -137,6 +137,20 @@ CREATE TABLE `property_images` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `property_features`
+--
+
+CREATE TABLE `property_features` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `property_id` bigint(20) UNSIGNED NOT NULL,
+  `feature_name` varchar(120) NOT NULL,
+  `sort_order` int(10) UNSIGNED NOT NULL DEFAULT 0,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 --
 -- Indexes for dumped tables
 --
@@ -189,6 +203,14 @@ ALTER TABLE `property_images`
   ADD KEY `idx_property_images_property` (`property_id`);
 
 --
+-- Indexes for table `property_features`
+--
+ALTER TABLE `property_features`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_property_features_property` (`property_id`),
+  ADD KEY `idx_property_features_name` (`feature_name`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -223,6 +245,12 @@ ALTER TABLE `property_images`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `property_features`
+--
+ALTER TABLE `property_features`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- Constraints for dumped tables
 --
 
@@ -250,6 +278,12 @@ ALTER TABLE `properties`
 --
 ALTER TABLE `property_images`
   ADD CONSTRAINT `fk_property_images_property` FOREIGN KEY (`property_id`) REFERENCES `properties` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `property_features`
+--
+ALTER TABLE `property_features`
+  ADD CONSTRAINT `fk_property_features_property` FOREIGN KEY (`property_id`) REFERENCES `properties` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -182,12 +182,20 @@
         const location = [listing.address_line_1, listing.address_line_2, listing.city, listing.state, listing.postal_code]
           .filter(Boolean)
           .join(", ");
+        const features = (listing.features || []).slice(0, 4);
 
         return `
           <div class="admin-list-item">
             <div>
               <strong>${listing.title}</strong>
               <span>${location || "United States"} - ${listing.status} - $${Number(listing.price || 0).toLocaleString()}</span>
+              ${
+                features.length
+                  ? `<div class="admin-feature-list">${features
+                      .map((feature) => `<span>${feature.feature_name}</span>`)
+                      .join("")}</div>`
+                  : ""
+              }
             </div>
             <div class="admin-list-actions">
               <button class="admin-mini-button" type="button" data-edit-listing="${listing.id}">Edit</button>
@@ -325,6 +333,9 @@
     document.getElementById("listing-bedrooms").value = listing.bedrooms || "";
     document.getElementById("listing-bathrooms").value = listing.bathrooms || "";
     document.getElementById("listing-square-feet").value = listing.square_feet || "";
+    document.getElementById("listing-features").value = (listing.features || [])
+      .map((feature) => feature.feature_name)
+      .join("\n");
     document.getElementById("listing-cover").value = "";
     document.getElementById("listing-cover-url").value = listing.cover_image_url || "";
     renderCoverPreview(listing.cover_image_url);

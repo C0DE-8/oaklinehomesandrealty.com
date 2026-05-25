@@ -48,6 +48,20 @@ CREATE TABLE IF NOT EXISTS property_images (
     ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+CREATE TABLE IF NOT EXISTS property_features (
+  id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  property_id BIGINT UNSIGNED NOT NULL,
+  feature_name VARCHAR(120) NOT NULL,
+  sort_order INT UNSIGNED NOT NULL DEFAULT 0,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  KEY idx_property_features_property (property_id),
+  KEY idx_property_features_name (feature_name),
+  CONSTRAINT fk_property_features_property
+    FOREIGN KEY (property_id) REFERENCES properties(id)
+    ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 CREATE TABLE IF NOT EXISTS leads (
   id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   first_name VARCHAR(80) NOT NULL,

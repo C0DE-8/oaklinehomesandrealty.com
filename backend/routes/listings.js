@@ -20,6 +20,18 @@ async function readListingImages(propertyId) {
   return rows;
 }
 
+async function readListingFeatures(propertyId) {
+  const [rows] = await db.execute(
+    `SELECT id, property_id, feature_name, sort_order, created_at
+       FROM property_features
+      WHERE property_id = ?
+      ORDER BY sort_order ASC, id ASC`,
+    [propertyId]
+  );
+
+  return rows;
+}
+
 async function attachListingImages(listings) {
   if (!listings.length) {
     return listings;
@@ -48,6 +60,38 @@ async function attachListingImages(listings) {
   }));
 }
 
+async function attachListingFeatures(listings) {
+  if (!listings.length) {
+    return listings;
+  }
+
+  const ids = listings.map((listing) => listing.id);
+  const placeholders = ids.map(() => "?").join(",");
+  const [features] = await db.execute(
+    `SELECT id, property_id, feature_name, sort_order, created_at
+       FROM property_features
+      WHERE property_id IN (${placeholders})
+      ORDER BY sort_order ASC, id ASC`,
+    ids
+  );
+  const featuresByListing = new Map();
+
+  features.forEach((feature) => {
+    const list = featuresByListing.get(feature.property_id) || [];
+    list.push(feature);
+    featuresByListing.set(feature.property_id, list);
+  });
+
+  return listings.map((listing) => ({
+    ...listing,
+    features: featuresByListing.get(listing.id) || [],
+  }));
+}
+
+async function attachListingDetails(listings) {
+  return attachListingFeatures(await attachListingImages(listings));
+}
+
 router.get("/", async (req, res, next) => {
   try {
     const search = cleanString(req.query.search);
@@ -56,8 +100,14 @@ router.get("/", async (req, res, next) => {
     const where = ["status = 'active'"];
 
     if (search) {
-      where.push("(title LIKE ? OR city LIKE ? OR state LIKE ? OR description LIKE ?)");
-      params.push(`%${search}%`, `%${search}%`, `%${search}%`, `%${search}%`);
+      where.push(`(title LIKE ? OR city LIKE ? OR state LIKE ? OR description LIKE ?
+        OR EXISTS (
+          SELECT 1
+            FROM property_features
+           WHERE property_features.property_id = properties.id
+             AND property_features.feature_name LIKE ?
+        ))`);
+      params.push(`%${search}%`, `%${search}%`, `%${search}%`, `%${search}%`, `%${search}%`);
     }
 
     if (market && market !== "United States") {
@@ -76,7 +126,7 @@ router.get("/", async (req, res, next) => {
       params
     );
 
-    return res.json({ listings: await attachListingImages(rows) });
+    return res.json({ listings: await attachListingDetails(rows) });
   } catch (error) {
     return next(error);
   }
@@ -101,6 +151,7 @@ router.get("/:slug", async (req, res, next) => {
 
     const listing = rows[0];
     listing.images = await readListingImages(listing.id);
+    listing.features = await readListingFeatures(listing.id);
 
     return res.json({ listing });
   } catch (error) {

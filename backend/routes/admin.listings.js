@@ -89,6 +89,18 @@ function uploadedFiles(req, field) {
   return req.files && Array.isArray(req.files[field]) ? req.files[field] : [];
 }
 
+function featureNames(value) {
+  if (Array.isArray(value)) {
+    return value.flatMap(featureNames);
+  }
+
+  return String(value || "")
+    .split(/[\n,]+/)
+    .map((feature) => feature.trim())
+    .filter(Boolean)
+    .slice(0, 40);
+}
+
 function listingPayload(body, adminId) {
   const title = cleanString(body.title);
   const city = cleanString(body.city);
@@ -148,6 +160,7 @@ async function readListing(id) {
   }
 
   listing.images = await readListingImages(id);
+  listing.features = await readListingFeatures(id);
   return listing;
 }
 
@@ -157,6 +170,18 @@ async function readListingImages(propertyId) {
        FROM property_images
       WHERE property_id = ?
       ORDER BY is_primary DESC, sort_order ASC, id ASC`,
+    [propertyId]
+  );
+
+  return rows;
+}
+
+async function readListingFeatures(propertyId) {
+  const [rows] = await db.execute(
+    `SELECT id, property_id, feature_name, sort_order, created_at
+       FROM property_features
+      WHERE property_id = ?
+      ORDER BY sort_order ASC, id ASC`,
     [propertyId]
   );
 
@@ -191,12 +216,56 @@ async function attachListingImages(listings) {
   }));
 }
 
+async function attachListingFeatures(listings) {
+  if (!listings.length) {
+    return listings;
+  }
+
+  const ids = listings.map((listing) => listing.id);
+  const placeholders = ids.map(() => "?").join(",");
+  const [features] = await db.execute(
+    `SELECT id, property_id, feature_name, sort_order, created_at
+       FROM property_features
+      WHERE property_id IN (${placeholders})
+      ORDER BY sort_order ASC, id ASC`,
+    ids
+  );
+  const featuresByListing = new Map();
+
+  features.forEach((feature) => {
+    const list = featuresByListing.get(feature.property_id) || [];
+    list.push(feature);
+    featuresByListing.set(feature.property_id, list);
+  });
+
+  return listings.map((listing) => ({
+    ...listing,
+    features: featuresByListing.get(listing.id) || [],
+  }));
+}
+
+async function attachListingDetails(listings) {
+  return attachListingFeatures(await attachListingImages(listings));
+}
+
 async function addGalleryImages(propertyId, files, startSortOrder = 0) {
   for (const [index, file] of files.entries()) {
     await db.execute(
       `INSERT INTO property_images (property_id, image_url, alt_text, sort_order, is_primary)
        VALUES (?, ?, ?, ?, 0)`,
       [propertyId, uploadedImageUrl(file), file.originalname || null, startSortOrder + index]
+    );
+  }
+}
+
+async function replaceListingFeatures(propertyId, features) {
+  await db.execute("DELETE FROM property_features WHERE property_id = ?", [propertyId]);
+
+  for (const [index, feature] of features.entries()) {
+    await db.execute(
+      `INSERT INTO property_features (property_id, feature_name, sort_order)
+       VALUES (?, ?, ?)`,
+      [propertyId, feature, index]
     );
   }
 }
@@ -233,7 +302,7 @@ router.get("/", async (req, res, next) => {
       params
     );
 
-    return res.json({ listings: await attachListingImages(rows) });
+    return res.json({ listings: await attachListingDetails(rows) });
   } catch (error) {
     return next(error);
   }
@@ -282,6 +351,7 @@ router.get("/:id", async (req, res, next) => {
 router.post("/", handleListingUpload, async (req, res, next) => {
   try {
     const payload = listingPayload(req.body, req.admin.id);
+    const features = featureNames(req.body.features || req.body.property_features);
     const coverImage = uploadedFiles(req, "cover_image_file")[0];
     const galleryImages = uploadedFiles(req, "gallery_images");
 
@@ -300,6 +370,7 @@ router.post("/", handleListingUpload, async (req, res, next) => {
     );
 
     await addGalleryImages(result.insertId, galleryImages);
+    await replaceListingFeatures(result.insertId, features);
 
     const listing = await readListing(result.insertId);
     return res.status(201).json({ message: "Listing created.", listing });
@@ -320,6 +391,7 @@ router.patch("/:id", handleListingUpload, async (req, res, next) => {
     }
 
     const payload = listingPayload({ ...existing, ...req.body }, existing.created_by || req.admin.id);
+    const features = featureNames(req.body.features || req.body.property_features);
     const coverImage = uploadedFiles(req, "cover_image_file")[0];
     const galleryImages = uploadedFiles(req, "gallery_images");
 
@@ -360,6 +432,7 @@ router.patch("/:id", handleListingUpload, async (req, res, next) => {
     );
 
     await addGalleryImages(req.params.id, galleryImages, existing.images.length);
+    await replaceListingFeatures(req.params.id, features);
 
     const listing = await readListing(req.params.id);
     return res.json({ message: "Listing updated.", listing });

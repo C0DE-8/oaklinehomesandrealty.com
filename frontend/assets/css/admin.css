@@ -380,6 +380,23 @@ body.admin-body {
   display: block;
 }
 
+.admin-feature-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.admin-feature-list span {
+  border: 1px solid var(--admin-line);
+  border-radius: 999px;
+  padding: 4px 8px;
+  color: var(--admin-green-dark);
+  background: var(--admin-green-soft);
+  font-size: 12px;
+  line-height: 1.2;
+}
+
 @media (max-width: 860px) {
   .admin-shell {
     min-height: 100dvh;
