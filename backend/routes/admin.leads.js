@@ -25,9 +25,15 @@ const leadSelect = `SELECT leads.id, leads.first_name, leads.last_name, leads.em
                            leads.utm_medium, leads.utm_campaign, leads.message, leads.source,
                            leads.status, leads.property_id, leads.assigned_agent_id,
                            agents.name AS assigned_agent_name,
+                           properties.title AS property_title,
+                           properties.slug AS property_slug,
+                           properties.listing_code AS property_listing_code,
+                           properties.city AS property_city,
+                           properties.state AS property_state,
                            leads.created_at, leads.updated_at
                       FROM leads
-                 LEFT JOIN agents ON agents.id = leads.assigned_agent_id`;
+                 LEFT JOIN agents ON agents.id = leads.assigned_agent_id
+                 LEFT JOIN properties ON properties.id = leads.property_id`;
 
 router.get("/", async (req, res, next) => {
   try {

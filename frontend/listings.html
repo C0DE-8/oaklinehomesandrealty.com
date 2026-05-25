@@ -116,6 +116,85 @@
         margin-right: 0;
       }
 
+      .listing-detail-icon {
+        width: 18px;
+        height: 18px;
+        flex: 0 0 18px;
+        object-fit: contain;
+      }
+
+      .listing-skeleton-card {
+        pointer-events: none;
+      }
+
+      .listing-skeleton-card .property-link-border {
+        cursor: default;
+      }
+
+      .listing-skeleton-media,
+      .listing-skeleton-line,
+      .listing-skeleton-pill {
+        position: relative;
+        overflow: hidden;
+        background: #eef3f0;
+      }
+
+      .listing-skeleton-media::after,
+      .listing-skeleton-line::after,
+      .listing-skeleton-pill::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        transform: translateX(-100%);
+        background: linear-gradient(
+          90deg,
+          rgba(255, 255, 255, 0),
+          rgba(255, 255, 255, 0.72),
+          rgba(255, 255, 255, 0)
+        );
+        animation: listing-skeleton-shimmer 1.25s ease-in-out infinite;
+      }
+
+      .listing-skeleton-media {
+        width: 100%;
+        height: 100%;
+        min-height: 210px;
+      }
+
+      .listing-skeleton-line {
+        height: 14px;
+        border-radius: 999px;
+        margin-bottom: 12px;
+      }
+
+      .listing-skeleton-line.title {
+        width: 74%;
+        height: 18px;
+      }
+
+      .listing-skeleton-line.location {
+        width: 48%;
+      }
+
+      .listing-skeleton-pill {
+        width: 54px;
+        height: 18px;
+        border-radius: 999px;
+      }
+
+      .listing-skeleton-detail {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        min-width: 54px;
+      }
+
+      @keyframes listing-skeleton-shimmer {
+        100% {
+          transform: translateX(100%);
+        }
+      }
+
       @media screen and (max-width: 479px) {
         .listing-filter-toggle .field-icon-copy {
           left: 16px;
@@ -134,7 +213,7 @@
           j = d.createElement(s),
           dl = l != "dataLayer" ? "&l=" + l : "";
         j.async = true;
-        j.src = "assets/js/vendor/google-tag-manager.html" + i + dl;
+        j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
         f.parentNode.insertBefore(j, f);
       })(window, document, "script", "dataLayer", "GTM-WZMXMZM");
     </script>
@@ -839,10 +918,10 @@
                     <div class="detail-wrapper">
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Bed.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bedrooms">
                           <div class="text-block">0</div>
@@ -852,10 +931,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Shower.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bathrooms">
                           <div class="text-block">1</div>
@@ -865,10 +944,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Ruler.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-sqft">
                           <div class="text-block">467</div>
@@ -906,10 +985,10 @@
                     <div class="detail-wrapper">
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Bed.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bedrooms">
                           <div class="text-block">2</div>
@@ -919,10 +998,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Shower.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bathrooms">
                           <div class="text-block">2</div>
@@ -932,10 +1011,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Ruler.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-sqft">
                           <div class="text-block">977</div>
@@ -973,10 +1052,10 @@
                     <div class="detail-wrapper">
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Bed.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bedrooms">
                           <div class="text-block">2</div>
@@ -986,10 +1065,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Shower.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bathrooms">
                           <div class="text-block">2</div>
@@ -999,10 +1078,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Ruler.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-sqft">
                           <div class="text-block">1749</div>
@@ -1040,10 +1119,10 @@
                     <div class="detail-wrapper">
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Bed.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bedrooms">
                           <div class="text-block">2</div>
@@ -1053,10 +1132,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Shower.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bathrooms">
                           <div class="text-block">2</div>
@@ -1066,10 +1145,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Ruler.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-sqft">
                           <div class="text-block">1183</div>
@@ -1107,10 +1186,10 @@
                     <div class="detail-wrapper">
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Bed.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bedrooms">
                           <div class="text-block">1</div>
@@ -1120,10 +1199,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Shower.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bathrooms">
                           <div class="text-block">1</div>
@@ -1133,10 +1212,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Ruler.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-sqft">
                           <div class="text-block">674</div>
@@ -1174,10 +1253,10 @@
                     <div class="detail-wrapper">
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Bed.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bedrooms">
                           <div class="text-block">1</div>
@@ -1187,10 +1266,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Shower.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bathrooms">
                           <div class="text-block">1</div>
@@ -1200,10 +1279,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Ruler.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-sqft">
                           <div class="text-block">836</div>
@@ -1241,10 +1320,10 @@
                     <div class="detail-wrapper">
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Bed.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bedrooms">
                           <div class="text-block">1</div>
@@ -1254,10 +1333,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Shower.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bathrooms">
                           <div class="text-block">1</div>
@@ -1267,10 +1346,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Ruler.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-sqft">
                           <div class="text-block">675</div>
@@ -1308,10 +1387,10 @@
                     <div class="detail-wrapper">
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Bed.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bedrooms">
                           <div class="text-block">2</div>
@@ -1321,10 +1400,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Shower.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bathrooms">
                           <div class="text-block">2</div>
@@ -1334,10 +1413,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Ruler.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-sqft">
                           <div class="text-block">1058</div>
@@ -1375,10 +1454,10 @@
                     <div class="detail-wrapper">
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Bed.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bedrooms">
                           <div class="text-block">1</div>
@@ -1388,10 +1467,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Shower.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bathrooms">
                           <div class="text-block">1</div>
@@ -1401,10 +1480,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Ruler.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-sqft">
                           <div class="text-block">735</div>
@@ -1442,10 +1521,10 @@
                     <div class="detail-wrapper">
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Bed.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bedrooms">
                           <div class="text-block">2</div>
@@ -1455,10 +1534,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Shower.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bathrooms">
                           <div class="text-block">2</div>
@@ -1468,10 +1547,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Ruler.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-sqft">
                           <div class="text-block">1154</div>
@@ -1509,10 +1588,10 @@
                     <div class="detail-wrapper">
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Bed.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bedrooms">
                           <div class="text-block">1</div>
@@ -1522,10 +1601,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Shower.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bathrooms">
                           <div class="text-block">1</div>
@@ -1535,10 +1614,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Ruler.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-sqft">
                           <div class="text-block">509</div>
@@ -1576,10 +1655,10 @@
                     <div class="detail-wrapper">
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Bed.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bedrooms">
                           <div class="text-block">2</div>
@@ -1589,10 +1668,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Shower.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bathrooms">
                           <div class="text-block">1</div>
@@ -1602,10 +1681,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Ruler.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-sqft">
                           <div class="text-block">783</div>
@@ -1643,10 +1722,10 @@
                     <div class="detail-wrapper">
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Bed.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bedrooms">
                           <div class="text-block">1</div>
@@ -1656,10 +1735,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Shower.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bathrooms">
                           <div class="text-block">1</div>
@@ -1669,10 +1748,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Ruler.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-sqft">
                           <div class="text-block">638</div>
@@ -1710,10 +1789,10 @@
                     <div class="detail-wrapper">
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Bed.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bedrooms">
                           <div class="text-block">1</div>
@@ -1723,10 +1802,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Shower.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bathrooms">
                           <div class="text-block">1</div>
@@ -1736,10 +1815,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Ruler.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-sqft">
                           <div class="text-block">763</div>
@@ -1777,10 +1856,10 @@
                     <div class="detail-wrapper">
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Bed.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bedrooms">
                           <div class="text-block">1</div>
@@ -1790,10 +1869,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Shower.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bathrooms">
                           <div class="text-block">1</div>
@@ -1803,10 +1882,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Ruler.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-sqft">
                           <div class="text-block">608</div>
@@ -1844,10 +1923,10 @@
                     <div class="detail-wrapper">
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Bed.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bedrooms">
                           <div class="text-block">2</div>
@@ -1857,10 +1936,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Shower.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bathrooms">
                           <div class="text-block">2</div>
@@ -1870,10 +1949,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Ruler.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-sqft">
                           <div class="text-block">1056</div>
@@ -1911,10 +1990,10 @@
                     <div class="detail-wrapper">
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Bed.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bedrooms">
                           <div class="text-block">3</div>
@@ -1924,10 +2003,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Shower.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bathrooms">
                           <div class="text-block">3</div>
@@ -1937,10 +2016,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Ruler.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-sqft">
                           <div class="text-block">1544</div>
@@ -1978,10 +2057,10 @@
                     <div class="detail-wrapper">
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Bed.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bedrooms">
                           <div class="text-block">1</div>
@@ -1991,10 +2070,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Shower.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bathrooms">
                           <div class="text-block">1</div>
@@ -2004,10 +2083,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Ruler.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-sqft">
                           <div class="text-block">660</div>
@@ -2045,10 +2124,10 @@
                     <div class="detail-wrapper">
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Bed.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bedrooms">
                           <div class="text-block">1</div>
@@ -2058,10 +2137,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Shower.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bathrooms">
                           <div class="text-block">1</div>
@@ -2071,10 +2150,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Ruler.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-sqft">
                           <div class="text-block">998</div>
@@ -2112,10 +2191,10 @@
                     <div class="detail-wrapper">
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Bed.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bedrooms">
                           <div class="text-block">2</div>
@@ -2125,10 +2204,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Shower.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bathrooms">
                           <div class="text-block">2</div>
@@ -2138,10 +2217,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Ruler.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-sqft">
                           <div class="text-block">1135</div>
@@ -2179,10 +2258,10 @@
                     <div class="detail-wrapper">
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Bed.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bedrooms">
                           <div class="text-block">2</div>
@@ -2192,10 +2271,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Shower.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bathrooms">
                           <div class="text-block">2</div>
@@ -2205,10 +2284,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Ruler.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-sqft">
                           <div class="text-block">1164</div>
@@ -2246,10 +2325,10 @@
                     <div class="detail-wrapper">
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Bed.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bedrooms">
                           <div class="text-block">2</div>
@@ -2259,10 +2338,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Shower.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bathrooms">
                           <div class="text-block">2</div>
@@ -2272,10 +2351,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Ruler.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-sqft">
                           <div class="text-block">1111</div>
@@ -2313,10 +2392,10 @@
                     <div class="detail-wrapper">
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Bed.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bedrooms">
                           <div class="text-block">2</div>
@@ -2326,10 +2405,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Shower.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bathrooms">
                           <div class="text-block">2</div>
@@ -2339,10 +2418,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Ruler.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-sqft">
                           <div class="text-block">1038</div>
@@ -2380,10 +2459,10 @@
                     <div class="detail-wrapper">
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Bed.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bedrooms">
                           <div class="text-block">2</div>
@@ -2393,10 +2472,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Shower.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bathrooms">
                           <div class="text-block">2</div>
@@ -2406,10 +2485,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Ruler.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-sqft">
                           <div class="text-block">1093</div>
@@ -2447,10 +2526,10 @@
                     <div class="detail-wrapper">
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Bed.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bedrooms">
                           <div class="text-block">3</div>
@@ -2460,10 +2539,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Shower.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bathrooms">
                           <div class="text-block">2</div>
@@ -2473,10 +2552,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Ruler.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-sqft">
                           <div class="text-block">1429</div>
@@ -2514,10 +2593,10 @@
                     <div class="detail-wrapper">
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Bed.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bedrooms">
                           <div class="text-block">3</div>
@@ -2527,10 +2606,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Shower.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bathrooms">
                           <div class="text-block">3</div>
@@ -2540,10 +2619,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Ruler.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-sqft">
                           <div class="text-block">2095</div>
@@ -2581,10 +2660,10 @@
                     <div class="detail-wrapper">
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Bed.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bedrooms">
                           <div class="text-block">1</div>
@@ -2594,10 +2673,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Shower.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bathrooms">
                           <div class="text-block">1</div>
@@ -2607,10 +2686,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Ruler.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-sqft">
                           <div class="text-block">682</div>
@@ -2648,10 +2727,10 @@
                     <div class="detail-wrapper">
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Bed.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bedrooms">
                           <div class="text-block">2</div>
@@ -2661,10 +2740,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Shower.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bathrooms">
                           <div class="text-block">3</div>
@@ -2674,10 +2753,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Ruler.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-sqft">
                           <div class="text-block">1605</div>
@@ -2715,10 +2794,10 @@
                     <div class="detail-wrapper">
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Bed.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bedrooms">
                           <div class="text-block">1</div>
@@ -2728,10 +2807,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Shower.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bathrooms">
                           <div class="text-block">1</div>
@@ -2741,10 +2820,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Ruler.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-sqft">
                           <div class="text-block">842</div>
@@ -2782,10 +2861,10 @@
                     <div class="detail-wrapper">
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Bed.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bedrooms">
                           <div class="text-block">2</div>
@@ -2795,10 +2874,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Shower.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bathrooms">
                           <div class="text-block">2</div>
@@ -2808,10 +2887,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Ruler.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-sqft">
                           <div class="text-block">1158</div>
@@ -2849,10 +2928,10 @@
                     <div class="detail-wrapper">
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Bed.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bedrooms">
                           <div class="text-block">1</div>
@@ -2862,10 +2941,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Shower.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bathrooms">
                           <div class="text-block">1</div>
@@ -2875,10 +2954,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Ruler.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-sqft">
                           <div class="text-block">703</div>
@@ -2916,10 +2995,10 @@
                     <div class="detail-wrapper">
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Bed.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bedrooms">
                           <div class="text-block">1</div>
@@ -2929,10 +3008,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Shower.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bathrooms">
                           <div class="text-block">1</div>
@@ -2942,10 +3021,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Ruler.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-sqft">
                           <div class="text-block">459</div>
@@ -2983,10 +3062,10 @@
                     <div class="detail-wrapper">
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Bed.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bedrooms">
                           <div class="text-block">2</div>
@@ -2996,10 +3075,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Shower.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bathrooms">
                           <div class="text-block">2</div>
@@ -3009,10 +3088,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Ruler.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-sqft">
                           <div class="text-block">1043</div>
@@ -3050,10 +3129,10 @@
                     <div class="detail-wrapper">
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Bed.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bedrooms">
                           <div class="text-block">1</div>
@@ -3063,10 +3142,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Shower.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bathrooms">
                           <div class="text-block">1</div>
@@ -3076,10 +3155,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Ruler.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-sqft">
                           <div class="text-block">658</div>
@@ -3117,10 +3196,10 @@
                     <div class="detail-wrapper">
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Bed.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bedrooms">
                           <div class="text-block">1</div>
@@ -3130,10 +3209,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Shower.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bathrooms">
                           <div class="text-block">1</div>
@@ -3143,10 +3222,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Ruler.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-sqft">
                           <div class="text-block">783</div>
@@ -3184,10 +3263,10 @@
                     <div class="detail-wrapper">
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Bed.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bedrooms">
                           <div class="text-block">2</div>
@@ -3197,10 +3276,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Shower.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bathrooms">
                           <div class="text-block">2</div>
@@ -3210,10 +3289,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Ruler.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-sqft">
                           <div class="text-block">1358</div>
@@ -3251,10 +3330,10 @@
                     <div class="detail-wrapper">
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Bed.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bedrooms">
                           <div class="text-block">2</div>
@@ -3264,10 +3343,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Shower.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bathrooms">
                           <div class="text-block">1</div>
@@ -3277,10 +3356,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Ruler.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-sqft">
                           <div class="text-block">1045</div>
@@ -3318,10 +3397,10 @@
                     <div class="detail-wrapper">
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Bed.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bedrooms">
                           <div class="text-block">1</div>
@@ -3331,10 +3410,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Shower.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bathrooms">
                           <div class="text-block">1</div>
@@ -3344,10 +3423,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Ruler.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-sqft">
                           <div class="text-block">785</div>
@@ -3385,10 +3464,10 @@
                     <div class="detail-wrapper">
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Bed.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bedrooms">
                           <div class="text-block">2</div>
@@ -3398,10 +3477,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Shower.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bathrooms">
                           <div class="text-block">2</div>
@@ -3411,10 +3490,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Ruler.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-sqft">
                           <div class="text-block">1282</div>
@@ -3452,10 +3531,10 @@
                     <div class="detail-wrapper">
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Bed.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bedrooms">
                           <div class="text-block">1</div>
@@ -3465,10 +3544,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Shower.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bathrooms">
                           <div class="text-block">1</div>
@@ -3478,10 +3557,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Ruler.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-sqft">
                           <div class="text-block">603</div>
@@ -3519,10 +3598,10 @@
                     <div class="detail-wrapper">
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Bed.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bedrooms">
                           <div class="text-block">2</div>
@@ -3532,10 +3611,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Shower.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bathrooms">
                           <div class="text-block">2</div>
@@ -3545,10 +3624,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Ruler.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-sqft">
                           <div class="text-block">1036</div>
@@ -3586,10 +3665,10 @@
                     <div class="detail-wrapper">
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Bed.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bedrooms">
                           <div class="text-block">1</div>
@@ -3599,10 +3678,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Shower.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bathrooms">
                           <div class="text-block">1</div>
@@ -3612,10 +3691,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Ruler.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-sqft">
                           <div class="text-block">679</div>
@@ -3653,10 +3732,10 @@
                     <div class="detail-wrapper">
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Bed.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bedrooms">
                           <div class="text-block">2</div>
@@ -3666,10 +3745,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Shower.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bathrooms">
                           <div class="text-block">2</div>
@@ -3679,10 +3758,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Ruler.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-sqft">
                           <div class="text-block">1103</div>
@@ -3720,10 +3799,10 @@
                     <div class="detail-wrapper">
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Bed.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bedrooms">
                           <div class="text-block">2</div>
@@ -3733,10 +3812,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Shower.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-bathrooms">
                           <div class="text-block">2</div>
@@ -3746,10 +3825,10 @@
                       <div class="line-break-small"></div>
                       <div class="detail-item">
                         <img
-                          src="assets/images/branding/icon.png"
+                          src="assets/images/icons/Ruler.svg"
                           loading="lazy"
                           alt=""
-                          class="detail-icon"
+                          class="listing-detail-icon detail-icon"
                         />
                         <div class="listings-sqft">
                           <div class="text-block">1217</div>
@@ -3967,6 +4046,10 @@
       integrity="sha384-yCJYd7wCo7EZ0rU28yWAW4bz2luPZ6EssVYGU57SKfPYxfPm94xZRhavo0h8kSaL"
       crossorigin="anonymous"
     ></script>
+    <script src="assets/js/vendor/axios-lite.js"></script>
+    <script src="assets/js/api/config.js"></script>
+    <script src="assets/js/api/public.api.js"></script>
+    <script src="assets/js/pages/listings.page.js"></script>
     <!-- F'in sweet CMS Library for Webflow -->
     <script src="assets/js/vendor/finsweet-cms-library.js"></script>
     <script>

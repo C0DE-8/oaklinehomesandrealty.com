@@ -130,6 +130,17 @@
         font-weight: 900;
       }
 
+      .agents-status {
+        grid-column: 1 / -1;
+        margin: 0;
+        padding: 28px;
+        color: #617067;
+        background: #fff;
+        border: 1px solid rgba(18, 53, 37, .12);
+        border-radius: 8px;
+        text-align: center;
+      }
+
       @media (max-width: 820px) {
         .agents-nav-inner {
           align-items: flex-start;
@@ -175,33 +186,12 @@
       </section>
 
       <section class="agents-grid" aria-label="Oakline agents">
-        <a href="agents/holly.html" class="agent-card">
-          <img src="assets/images/agents/holly.png" alt="Holly" />
-          <div class="agent-card-body">
-            <h2>Holly</h2>
-            <p>Licensed real estate agent focused on clear options and smooth client support.</p>
-            <span>View Profile</span>
-          </div>
-        </a>
-
-        <a href="agents/hannah.html" class="agent-card">
-          <img src="assets/images/agents/hannah.png" alt="Hannah" />
-          <div class="agent-card-body">
-            <h2>Hannah</h2>
-            <p>Apartment and home search support with practical guidance from start to finish.</p>
-            <span>View Profile</span>
-          </div>
-        </a>
-
-        <a href="agents/elliot.html" class="agent-card">
-          <img src="assets/images/agents/elliot.jpg" alt="Elliot" />
-          <div class="agent-card-body">
-            <h2>Elliot</h2>
-            <p>Real estate support for clients comparing neighborhoods, pricing, and timing.</p>
-            <span>View Profile</span>
-          </div>
-        </a>
+        <p class="agents-status">Loading agents...</p>
       </section>
     </main>
+    <script src="assets/js/vendor/axios-lite.js"></script>
+    <script src="assets/js/api/config.js"></script>
+    <script src="assets/js/api/public.api.js"></script>
+    <script src="assets/js/pages/agents.page.js"></script>
   </body>
 </html>

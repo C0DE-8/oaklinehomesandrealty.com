@@ -40,7 +40,28 @@ function nullableMoney(value) {
 
 function nullableDate(value) {
   const cleaned = cleanString(value);
-  return /^\d{4}-\d{2}-\d{2}$/.test(cleaned) ? cleaned : null;
+
+  if (/^\d{4}-\d{2}-\d{2}$/.test(cleaned)) {
+    return cleaned;
+  }
+
+  const match = cleaned.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+
+  if (!match) {
+    return null;
+  }
+
+  const [, month, day, year] = match;
+  return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
+}
+
+function nullableId(value) {
+  if (value === undefined || value === null || value === "") {
+    return null;
+  }
+
+  const id = Number(value);
+  return Number.isInteger(id) && id > 0 ? id : null;
 }
 
 function leadPayload(body) {
@@ -66,11 +87,16 @@ function leadPayload(body) {
     utmSource: nullableString(pick(body, "utmSource", "utm_source")),
     utmMedium: nullableString(pick(body, "utmMedium", "utm_medium")),
     utmCampaign: nullableString(pick(body, "utmCampaign", "utm_campaign")),
+    propertyId: nullableId(pick(body, "propertyId", "property_id", "property-id")),
+    assignedAgentId: nullableId(pick(body, "assignedAgentId", "assigned_agent_id", "agentId", "agent_id", "agent-id")),
   };
 }
 
 function leadMessage(body) {
   const lines = [
+    ["Property", pick(body, "propertyTitle", "property_title", "property-title")],
+    ["Property slug", pick(body, "propertySlug", "property_slug", "property-slug")],
+    ["Agent", pick(body, "agentName", "agent_name", "agent-name")],
     ["Market", pick(body, "market", "branchLabel", "branch_label", "branch")],
     ["Bedrooms", pick(body, "bedrooms")],
     ["Extra room", pick(body, "extraRoom", "extra_room", "extra-room") ? "Yes" : "No"],
@@ -104,13 +130,31 @@ router.post("/", async (req, res, next) => {
       return res.status(400).json({ message: "First name, phone, and email are required." });
     }
 
+    if (payload.propertyId) {
+      const [properties] = await db.execute("SELECT id FROM properties WHERE id = ?", [payload.propertyId]);
+
+      if (!properties.length) {
+        return res.status(400).json({ message: "Property was not found." });
+      }
+    }
+
+    if (payload.assignedAgentId) {
+      const [agents] = await db.execute("SELECT id FROM agents WHERE id = ? AND is_active = 1", [payload.assignedAgentId]);
+
+      if (!agents.length) {
+        return res.status(400).json({ message: "Agent was not found." });
+      }
+    }
+
+    const source = payload.propertyId ? "listing-details" : payload.assignedAgentId ? "agent-profile" : "get-started";
+
     const [result] = await db.execute(
       `INSERT INTO leads
        (first_name, last_name, email, phone, market, branch, bedrooms, extra_room,
         bathrooms, max_budget, move_date, lease_term, credit, background, instagram,
         referral, feature_requests, page_url, utm_source, utm_medium, utm_campaign,
-        message, source)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        property_id, assigned_agent_id, message, source)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
         payload.firstName,
         payload.lastName,
@@ -133,8 +177,10 @@ router.post("/", async (req, res, next) => {
         payload.utmSource,
         payload.utmMedium,
         payload.utmCampaign,
+        payload.propertyId,
+        payload.assignedAgentId,
         leadMessage(body),
-        "get-started",
+        source,
       ]
     );
 
@@ -146,7 +192,9 @@ router.post("/", async (req, res, next) => {
         last_name: payload.lastName,
         email: payload.email,
         phone: payload.phone,
-        source: "get-started",
+        source,
+        property_id: payload.propertyId,
+        assigned_agent_id: payload.assignedAgentId,
         status: "new",
       },
     });

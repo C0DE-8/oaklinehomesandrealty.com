@@ -23,7 +23,9 @@
       headers,
     };
 
-    if (config.data !== undefined && typeof FormData !== "undefined" && config.data instanceof FormData) {
+    if (method === "GET" || method === "HEAD") {
+      delete headers["Content-Type"];
+    } else if (config.data !== undefined && typeof FormData !== "undefined" && config.data instanceof FormData) {
       delete headers["Content-Type"];
       fetchOptions.body = config.data;
     } else if (config.data !== undefined) {

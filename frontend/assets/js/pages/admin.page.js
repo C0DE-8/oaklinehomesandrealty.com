@@ -274,7 +274,14 @@
       .map((lead) => {
         const name = [lead.first_name, lead.last_name].filter(Boolean).join(" ");
         const source = lead.source ? ` - ${lead.source}` : "";
+        const propertyName =
+          lead.property_listing_code || lead.property_title
+            ? [lead.property_listing_code ? `#OaklineHomes${lead.property_listing_code}` : lead.property_title, [lead.property_city, lead.property_state].filter(Boolean).join(", ")]
+                .filter(Boolean)
+                .join(" - ")
+            : "";
         const leadDetails = [
+          ["Property", propertyName],
           ["Market", lead.market],
           ["Bedrooms", lead.bedrooms],
           ["Extra room", lead.extra_room ? "Yes" : "No"],

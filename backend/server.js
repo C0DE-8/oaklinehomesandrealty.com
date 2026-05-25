@@ -8,6 +8,7 @@ const db = require("./config/db");
 const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/users");
 const listingRoutes = require("./routes/listings");
+const agentRoutes = require("./routes/agents");
 const leadRoutes = require("./routes/leads");
 const adminProfileRoutes = require("./routes/admin.profile");
 const adminListingRoutes = require("./routes/admin.listings");
@@ -39,6 +40,7 @@ app.get("/api/health", async (req, res, next) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/listings", listingRoutes);
+app.use("/api/agents", agentRoutes);
 app.use("/api/leads", leadRoutes);
 app.use("/api/admin/profile", adminProfileRoutes);
 app.use("/api/admin/listings", adminListingRoutes);

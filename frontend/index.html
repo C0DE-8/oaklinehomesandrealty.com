@@ -263,6 +263,119 @@
         padding-left: 18px;
       }
 
+      .listing-skeleton-card {
+        pointer-events: none;
+      }
+
+      .listing-skeleton-card .property-link-border {
+        cursor: default;
+      }
+
+      .listing-skeleton-media,
+      .listing-skeleton-line,
+      .listing-skeleton-pill {
+        position: relative;
+        overflow: hidden;
+        background: #eef3f0;
+      }
+
+      .listing-skeleton-media::after,
+      .listing-skeleton-line::after,
+      .listing-skeleton-pill::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        transform: translateX(-100%);
+        background: linear-gradient(
+          90deg,
+          rgba(255, 255, 255, 0),
+          rgba(255, 255, 255, 0.72),
+          rgba(255, 255, 255, 0)
+        );
+        animation: listing-skeleton-shimmer 1.25s ease-in-out infinite;
+      }
+
+      .listing-skeleton-media {
+        width: 100%;
+        height: 100%;
+        min-height: 210px;
+      }
+
+      .listing-skeleton-line {
+        height: 14px;
+        border-radius: 999px;
+        margin-bottom: 12px;
+      }
+
+      .listing-skeleton-line.title {
+        width: 74%;
+        height: 18px;
+      }
+
+      .listing-skeleton-line.location {
+        width: 48%;
+      }
+
+      .listing-skeleton-pill {
+        width: 54px;
+        height: 18px;
+        border-radius: 999px;
+      }
+
+      .listing-skeleton-detail {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        min-width: 54px;
+      }
+
+      .listing-detail-icon {
+        width: 18px;
+        height: 18px;
+        flex: 0 0 18px;
+        object-fit: contain;
+      }
+
+      .listing-empty-card {
+        width: 100%;
+        max-width: 360px;
+        grid-column: 1 / -1;
+        justify-self: center;
+      }
+
+      .listing-empty-card .property-link-border {
+        cursor: default;
+        pointer-events: none;
+      }
+
+      .listing-empty-card .property-image-short {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 210px;
+        padding: 24px;
+        background: #eef3f0;
+      }
+
+      .listing-empty-message {
+        max-width: 220px;
+        color: #123525;
+        font-size: 16px;
+        font-weight: 800;
+        line-height: 1.35;
+        text-align: center;
+      }
+
+      .listing-empty-card .property-content-padding {
+        min-height: 104px;
+      }
+
+      @keyframes listing-skeleton-shimmer {
+        100% {
+          transform: translateX(100%);
+        }
+      }
+
       @media screen and (max-width: 767px) {
         .application-fee-notice {
           top: max(12px, env(safe-area-inset-top));
@@ -318,7 +431,7 @@
           j = d.createElement(s),
           dl = l != "dataLayer" ? "&l=" + l : "";
         j.async = true;
-        j.src = "assets/js/vendor/google-tag-manager.html" + i + dl;
+        j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
         f.parentNode.insertBefore(j, f);
       })(window, document, "script", "dataLayer", "GTM-WZMXMZM");
     </script>
@@ -1165,23 +1278,23 @@
               rotateY(0) rotateZ(0) skew(0, 0);
             opacity: 0;
           "
-          data-current="High-Rise"
+          data-current="Apartment"
           data-easing="ease"
           class="listings-tabs-centre w-tabs"
         >
           <div class="listings-tabs-menu-centre w-tab-menu">
             <a
-              data-w-tab="High-Rise"
+              data-w-tab="Apartment"
               class="listings-tab-link-button w-inline-block w-tab-link w--current"
-              ><div>High-Rise</div></a
+              ><div>Apartment</div></a
             ><a
-              data-w-tab="Mid-Rise"
+              data-w-tab="Condo"
               class="listings-tab-link-button w-inline-block w-tab-link"
-              ><div>Mid-Rise</div></a
+              ><div>Condo</div></a
             ><a
-              data-w-tab="Loft"
+              data-w-tab="House"
               class="listings-tab-link-button w-inline-block w-tab-link"
-              ><div>Loft</div></a
+              ><div>House</div></a
             ><a
               data-w-tab="Townhome"
               class="listings-tab-link-button w-inline-block w-tab-link"
@@ -1190,7 +1303,7 @@
           </div>
           <div class="tabs-content w-tab-content">
             <div
-              data-w-tab="High-Rise"
+              data-w-tab="Apartment"
               class="tab-pane-high-rise w-tab-pane w--tab-active"
             >
               <div class="w-dyn-list">
@@ -1219,16 +1332,19 @@
                         <p class="paragraph-small">Heights</p>
                         <div class="detail-wrapper">
                           <div class="detail-item">
+                            <img src="assets/images/icons/Bed.svg" loading="lazy" alt="" class="listing-detail-icon" />
                             <div class="text-block">1</div>
                             <div>bd</div>
                           </div>
                           <div class="line-break-small"></div>
                           <div class="detail-item">
+                            <img src="assets/images/icons/Shower.svg" loading="lazy" alt="" class="listing-detail-icon" />
                             <div class="text-block">1</div>
                             <div>ba</div>
                           </div>
                           <div class="line-break-small"></div>
                           <div class="detail-item">
+                            <img src="assets/images/icons/Ruler.svg" loading="lazy" alt="" class="listing-detail-icon" />
                             <div class="text-block">785</div>
                             <div>m²</div>
                           </div>
@@ -1260,16 +1376,19 @@
                         <p class="paragraph-small">Downtown</p>
                         <div class="detail-wrapper">
                           <div class="detail-item">
+                            <img src="assets/images/icons/Bed.svg" loading="lazy" alt="" class="listing-detail-icon" />
                             <div class="text-block">2</div>
                             <div>bd</div>
                           </div>
                           <div class="line-break-small"></div>
                           <div class="detail-item">
+                            <img src="assets/images/icons/Shower.svg" loading="lazy" alt="" class="listing-detail-icon" />
                             <div class="text-block">2</div>
                             <div>ba</div>
                           </div>
                           <div class="line-break-small"></div>
                           <div class="detail-item">
+                            <img src="assets/images/icons/Ruler.svg" loading="lazy" alt="" class="listing-detail-icon" />
                             <div class="text-block">1749</div>
                             <div>m²</div>
                           </div>
@@ -1301,16 +1420,19 @@
                         <p class="paragraph-small">Uptown</p>
                         <div class="detail-wrapper">
                           <div class="detail-item">
+                            <img src="assets/images/icons/Bed.svg" loading="lazy" alt="" class="listing-detail-icon" />
                             <div class="text-block">1</div>
                             <div>bd</div>
                           </div>
                           <div class="line-break-small"></div>
                           <div class="detail-item">
+                            <img src="assets/images/icons/Shower.svg" loading="lazy" alt="" class="listing-detail-icon" />
                             <div class="text-block">1</div>
                             <div>ba</div>
                           </div>
                           <div class="line-break-small"></div>
                           <div class="detail-item">
+                            <img src="assets/images/icons/Ruler.svg" loading="lazy" alt="" class="listing-detail-icon" />
                             <div class="text-block">998</div>
                             <div>m²</div>
                           </div>
@@ -1321,7 +1443,7 @@
                 </div>
               </div>
             </div>
-            <div data-w-tab="Mid-Rise" class="w-tab-pane">
+            <div data-w-tab="Condo" class="w-tab-pane">
               <div class="w-dyn-list">
                 <div role="list" class="property-collection w-dyn-items">
                   <div role="listitem" class="property-item w-dyn-item">
@@ -1345,16 +1467,19 @@
                         <p class="paragraph-small">Midtown</p>
                         <div class="detail-wrapper">
                           <div class="detail-item">
+                            <img src="assets/images/icons/Bed.svg" loading="lazy" alt="" class="listing-detail-icon" />
                             <div class="text-block">0</div>
                             <div>bd</div>
                           </div>
                           <div class="line-break-small"></div>
                           <div class="detail-item">
+                            <img src="assets/images/icons/Shower.svg" loading="lazy" alt="" class="listing-detail-icon" />
                             <div class="text-block">1</div>
                             <div>ba</div>
                           </div>
                           <div class="line-break-small"></div>
                           <div class="detail-item">
+                            <img src="assets/images/icons/Ruler.svg" loading="lazy" alt="" class="listing-detail-icon" />
                             <div class="text-block">467</div>
                             <div>m²</div>
                           </div>
@@ -1383,16 +1508,19 @@
                         <p class="paragraph-small">Richmond</p>
                         <div class="detail-wrapper">
                           <div class="detail-item">
+                            <img src="assets/images/icons/Bed.svg" loading="lazy" alt="" class="listing-detail-icon" />
                             <div class="text-block">2</div>
                             <div>bd</div>
                           </div>
                           <div class="line-break-small"></div>
                           <div class="detail-item">
+                            <img src="assets/images/icons/Shower.svg" loading="lazy" alt="" class="listing-detail-icon" />
                             <div class="text-block">2</div>
                             <div>ba</div>
                           </div>
                           <div class="line-break-small"></div>
                           <div class="detail-item">
+                            <img src="assets/images/icons/Ruler.svg" loading="lazy" alt="" class="listing-detail-icon" />
                             <div class="text-block">977</div>
                             <div>m²</div>
                           </div>
@@ -1421,16 +1549,19 @@
                         <p class="paragraph-small">Richmond</p>
                         <div class="detail-wrapper">
                           <div class="detail-item">
+                            <img src="assets/images/icons/Bed.svg" loading="lazy" alt="" class="listing-detail-icon" />
                             <div class="text-block">2</div>
                             <div>bd</div>
                           </div>
                           <div class="line-break-small"></div>
                           <div class="detail-item">
+                            <img src="assets/images/icons/Shower.svg" loading="lazy" alt="" class="listing-detail-icon" />
                             <div class="text-block">2</div>
                             <div>ba</div>
                           </div>
                           <div class="line-break-small"></div>
                           <div class="detail-item">
+                            <img src="assets/images/icons/Ruler.svg" loading="lazy" alt="" class="listing-detail-icon" />
                             <div class="text-block">1183</div>
                             <div>m²</div>
                           </div>
@@ -1441,7 +1572,7 @@
                 </div>
               </div>
             </div>
-            <div data-w-tab="Loft" class="w-tab-pane">
+            <div data-w-tab="House" class="w-tab-pane">
               <div class="w-dyn-list">
                 <div role="list" class="property-collection w-dyn-items">
                   <div role="listitem" class="property-item w-dyn-item">
@@ -1465,16 +1596,19 @@
                         <p class="paragraph-small">Midtown</p>
                         <div class="detail-wrapper">
                           <div class="detail-item">
+                            <img src="assets/images/icons/Bed.svg" loading="lazy" alt="" class="listing-detail-icon" />
                             <div class="text-block">0</div>
                             <div>bd</div>
                           </div>
                           <div class="line-break-small"></div>
                           <div class="detail-item">
+                            <img src="assets/images/icons/Shower.svg" loading="lazy" alt="" class="listing-detail-icon" />
                             <div class="text-block">1</div>
                             <div>ba</div>
                           </div>
                           <div class="line-break-small"></div>
                           <div class="detail-item">
+                            <img src="assets/images/icons/Ruler.svg" loading="lazy" alt="" class="listing-detail-icon" />
                             <div class="text-block">467</div>
                             <div>m²</div>
                           </div>
@@ -1503,16 +1637,19 @@
                         <p class="paragraph-small">Greenway</p>
                         <div class="detail-wrapper">
                           <div class="detail-item">
+                            <img src="assets/images/icons/Bed.svg" loading="lazy" alt="" class="listing-detail-icon" />
                             <div class="text-block">2</div>
                             <div>bd</div>
                           </div>
                           <div class="line-break-small"></div>
                           <div class="detail-item">
+                            <img src="assets/images/icons/Shower.svg" loading="lazy" alt="" class="listing-detail-icon" />
                             <div class="text-block">1</div>
                             <div>ba</div>
                           </div>
                           <div class="line-break-small"></div>
                           <div class="detail-item">
+                            <img src="assets/images/icons/Ruler.svg" loading="lazy" alt="" class="listing-detail-icon" />
                             <div class="text-block">1045</div>
                             <div>m²</div>
                           </div>
@@ -1541,16 +1678,19 @@
                         <p class="paragraph-small">Downtown</p>
                         <div class="detail-wrapper">
                           <div class="detail-item">
+                            <img src="assets/images/icons/Bed.svg" loading="lazy" alt="" class="listing-detail-icon" />
                             <div class="text-block">2</div>
                             <div>bd</div>
                           </div>
                           <div class="line-break-small"></div>
                           <div class="detail-item">
+                            <img src="assets/images/icons/Shower.svg" loading="lazy" alt="" class="listing-detail-icon" />
                             <div class="text-block">2</div>
                             <div>ba</div>
                           </div>
                           <div class="line-break-small"></div>
                           <div class="detail-item">
+                            <img src="assets/images/icons/Ruler.svg" loading="lazy" alt="" class="listing-detail-icon" />
                             <div class="text-block">1217</div>
                             <div>m²</div>
                           </div>
@@ -1585,16 +1725,19 @@
                         <p class="paragraph-small">Katy</p>
                         <div class="detail-wrapper">
                           <div class="detail-item">
+                            <img src="assets/images/icons/Bed.svg" loading="lazy" alt="" class="listing-detail-icon" />
                             <div class="text-block">1</div>
                             <div>bd</div>
                           </div>
                           <div class="line-break-small"></div>
                           <div class="detail-item">
+                            <img src="assets/images/icons/Shower.svg" loading="lazy" alt="" class="listing-detail-icon" />
                             <div class="text-block">1</div>
                             <div>ba</div>
                           </div>
                           <div class="line-break-small"></div>
                           <div class="detail-item">
+                            <img src="assets/images/icons/Ruler.svg" loading="lazy" alt="" class="listing-detail-icon" />
                             <div class="text-block">608</div>
                             <div>m²</div>
                           </div>
@@ -1623,16 +1766,19 @@
                         <p class="paragraph-small">Heights</p>
                         <div class="detail-wrapper">
                           <div class="detail-item">
+                            <img src="assets/images/icons/Bed.svg" loading="lazy" alt="" class="listing-detail-icon" />
                             <div class="text-block">3</div>
                             <div>bd</div>
                           </div>
                           <div class="line-break-small"></div>
                           <div class="detail-item">
+                            <img src="assets/images/icons/Shower.svg" loading="lazy" alt="" class="listing-detail-icon" />
                             <div class="text-block">3</div>
                             <div>ba</div>
                           </div>
                           <div class="line-break-small"></div>
                           <div class="detail-item">
+                            <img src="assets/images/icons/Ruler.svg" loading="lazy" alt="" class="listing-detail-icon" />
                             <div class="text-block">1544</div>
                             <div>m²</div>
                           </div>
@@ -1661,16 +1807,19 @@
                         <p class="paragraph-small">Katy</p>
                         <div class="detail-wrapper">
                           <div class="detail-item">
+                            <img src="assets/images/icons/Bed.svg" loading="lazy" alt="" class="listing-detail-icon" />
                             <div class="text-block">3</div>
                             <div>bd</div>
                           </div>
                           <div class="line-break-small"></div>
                           <div class="detail-item">
+                            <img src="assets/images/icons/Shower.svg" loading="lazy" alt="" class="listing-detail-icon" />
                             <div class="text-block">2</div>
                             <div>ba</div>
                           </div>
                           <div class="line-break-small"></div>
                           <div class="detail-item">
+                            <img src="assets/images/icons/Ruler.svg" loading="lazy" alt="" class="listing-detail-icon" />
                             <div class="text-block">1429</div>
                             <div>m²</div>
                           </div>
@@ -1757,7 +1906,7 @@
             class="agent-collection w-dyn-items"
           >
             <div role="listitem" class="w-dyn-item">
-              <a href="agents/holly.html" class="agent-wrapper w-inline-block"
+              <a href="agents.html" class="agent-wrapper w-inline-block"
                 ><div class="agent-image">
                   <img
                     loading="lazy"
@@ -1774,7 +1923,7 @@
               >
             </div>
             <div role="listitem" class="w-dyn-item">
-              <a href="agents/hannah.html" class="agent-wrapper w-inline-block"
+              <a href="agents.html" class="agent-wrapper w-inline-block"
                 ><div class="agent-image">
                   <img
                     loading="lazy"
@@ -1791,7 +1940,7 @@
               >
             </div>
             <div role="listitem" class="w-dyn-item">
-              <a href="agents/elliot.html" class="agent-wrapper w-inline-block"
+              <a href="agents.html" class="agent-wrapper w-inline-block"
                 ><div class="agent-image">
                   <img
                     loading="lazy"
@@ -2035,6 +2184,10 @@
       integrity="sha384-Hnqg+XJ3vRYLQFQ49P/Y9W3rBrFyDOUfDh4P8ABaJ1u6Ag4GEFUq/BeDjxvQvJb0"
       crossorigin="anonymous"
     ></script>
+    <script src="assets/js/vendor/axios-lite.js"></script>
+    <script src="assets/js/api/config.js"></script>
+    <script src="assets/js/api/public.api.js"></script>
+    <script src="assets/js/pages/home.page.js"></script>
     <script src="assets/js/vendor/elfsight-platform.js" defer></script>
     <script>
       (function () {
