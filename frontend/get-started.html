@@ -541,12 +541,12 @@
                           value="1"
                         />
                         <div class="radio-number-text-wrap large">
-                          <div>USA</div>
+                          <div>FL</div>
                         </div>
                         <span
                           for="1"
                           class="fancy-form-radio-title large w-form-label"
-                          >United States</span
+                          >Florida</span
                         ></label
                       ><label
                         id="branch-2"
@@ -564,12 +564,12 @@
                           value="2"
                         />
                         <div class="radio-number-text-wrap large">
-                          <div>DFW</div>
+                          <div>LV</div>
                         </div>
                         <span
                           for="2"
                           class="fancy-form-radio-title large w-form-label"
-                          >Dallas / Fort Worth</span
+                          >Las Vegas</span
                         ></label
                       ><label
                         id="branch-3"
@@ -587,12 +587,58 @@
                           value="3"
                         />
                         <div class="radio-number-text-wrap large">
-                          <div>ATX</div>
+                          <div>CA</div>
                         </div>
                         <span
                           for="3"
                           class="fancy-form-radio-title large w-form-label"
-                          >Austin</span
+                          >California</span
+                        ></label
+                      ><label
+                        id="branch-4"
+                        class="radio-button-wrap large w-radio"
+                        ><div
+                          class="w-form-formradioinput w-form-formradioinput--inputType-custom fancy-form-field squareish w-radio-input"
+                        ></div>
+                        <input
+                          type="radio"
+                          name="branch"
+                          id="4"
+                          data-name="branch"
+                          required=""
+                          style="opacity: 0; position: absolute; z-index: -1"
+                          value="4"
+                        />
+                        <div class="radio-number-text-wrap large">
+                          <div>CHI</div>
+                        </div>
+                        <span
+                          for="4"
+                          class="fancy-form-radio-title large w-form-label"
+                          >Chicago</span
+                        ></label
+                      ><label
+                        id="branch-5"
+                        class="radio-button-wrap large w-radio"
+                        ><div
+                          class="w-form-formradioinput w-form-formradioinput--inputType-custom fancy-form-field squareish w-radio-input"
+                        ></div>
+                        <input
+                          type="radio"
+                          name="branch"
+                          id="5"
+                          data-name="branch"
+                          required=""
+                          style="opacity: 0; position: absolute; z-index: -1"
+                          value="5"
+                        />
+                        <div class="radio-number-text-wrap large">
+                          <div>TX</div>
+                        </div>
+                        <span
+                          for="5"
+                          class="fancy-form-radio-title large w-form-label"
+                          >Texas</span
                         ></label
                       >
                     </div>
@@ -1635,7 +1681,7 @@
               <div class="footer-newsletter">
                 <div class="large-title">Keep Yourself Up to Date</div>
                 <p>
-                  Get the latest deals, events, and tips on the United States apartment market. We try to match only relevant content to
+                  Get the latest deals, events, and tips on apartment markets across Florida, Las Vegas, California, Chicago, and Texas. We try to match only relevant content to
                   you!
                 </p>
                 <div class="form-block w-form">
@@ -2114,9 +2160,11 @@
         var form = document.querySelector("#fancy-form form.fancy-form");
         var apiBase = "http://localhost:5000/api";
         var branchLabels = {
-          1: "United States",
-          2: "Dallas/Fort Worth",
-          3: "Austin",
+          1: "Florida",
+          2: "Las Vegas",
+          3: "California",
+          4: "Chicago",
+          5: "Texas",
         };
 
         if (!form) {
