@@ -99,6 +99,7 @@
         text-rendering: optimizeLegibility;
         max-width: 100%;
         overflow-x: hidden;
+        padding-top: 86px;
       }
 
       html {
@@ -113,6 +114,17 @@
       /* Kill the blink/flickering */
       .phone-slide {
         will-change: transform;
+      }
+
+      .navigation-default {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        z-index: 999;
+        background: #fff;
+        box-shadow: 0 1px 0 rgba(18, 53, 37, 0.08);
       }
 
       .application-fee-notice {
@@ -377,6 +389,10 @@
       }
 
       @media screen and (max-width: 767px) {
+        body {
+          padding-top: 74px;
+        }
+
         .application-fee-notice {
           top: max(12px, env(safe-area-inset-top));
           right: max(12px, env(safe-area-inset-right));
