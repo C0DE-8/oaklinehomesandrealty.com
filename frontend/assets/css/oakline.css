@@ -12,6 +12,14 @@ html{-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;font-family:sans-se
 
 body { color: #1c2a22; }
 
+.navigation-default {
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  background-color: #fff;
+  box-shadow: 0 1px 0 rgba(18, 53, 37, .08);
+}
+
 .fancy-gradient-color-text {
   color: var(--oakline-green);
   background-image: linear-gradient(135deg, var(--oakline-green-dark), var(--oakline-green) 54%, var(--oakline-green-bright));
