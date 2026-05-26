@@ -420,6 +420,29 @@
           line-height: 1.5;
         }
       }
+
+      .tiktok-post-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        align-items: start;
+        justify-items: center;
+        gap: 18px;
+        width: min(760px, 100%);
+        margin: 0 auto;
+      }
+
+      .tiktok-profile-link {
+        color: #468c50;
+        font-size: 18px;
+        font-weight: 800;
+        text-decoration: none;
+      }
+
+      @media screen and (max-width: 767px) {
+        .tiktok-post-grid {
+          grid-template-columns: 1fr;
+        }
+      }
     </style>
 
     <!-- Google Tag Manager -->
@@ -1977,7 +2000,7 @@
         class="title-wrap-centre"
       >
         <h2 class="padding-bottom-12">
-          Follow us on <span class="fancy-gradient-color-text">Instagram</span>
+          Follow us on <span class="fancy-gradient-color-text">TikTok</span>
         </h2>
         <p class="padding-bottom-12">
           We have one of the largest apartment listing pages across Texas, Florida, Las Vegas, and California.
@@ -1985,10 +2008,11 @@
           up on our feed!
         </p>
         <a
-          href="https://www.instagram.com/oaklinehomes/"
+          href="https://www.tiktok.com/@cathiee_reid?_r=1&_t=ZS-96gCck1zGj7"
           target="_blank"
+          rel="noopener noreferrer"
           class="w-inline-block"
-          ><div class="instagram-link-hype">@oaklinehomes</div></a
+          ><div class="tiktok-profile-link">@cathiee_reid</div></a
         >
       </div>
       <div
@@ -2004,9 +2028,39 @@
             rotateY(0) rotateZ(0) skew(0, 0);
           opacity: 0;
         "
-        class="instagram-embed w-embed"
+        class="tiktok-post-grid w-embed w-script"
       >
-        <div class="elfsight-app-fb31fa5d-6558-4ae3-a98b-89d58fe3afde"></div>
+        <blockquote
+          class="tiktok-embed"
+          cite="https://www.tiktok.com/@cathiee_reid/video/7643882568965836045"
+          data-video-id="7643882568965836045"
+          style="max-width: 325px; min-width: 325px;"
+        >
+          <section>
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href="https://www.tiktok.com/@cathiee_reid?refer=embed"
+              >@cathiee_reid</a
+            >
+          </section>
+        </blockquote>
+        <blockquote
+          class="tiktok-embed"
+          cite="https://www.tiktok.com/@cathiee_reid/video/7644119954152901902"
+          data-video-id="7644119954152901902"
+          style="max-width: 325px; min-width: 325px;"
+        >
+          <section>
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href="https://www.tiktok.com/@cathiee_reid?refer=embed"
+              >@cathiee_reid</a
+            >
+          </section>
+        </blockquote>
+        <script async src="https://www.tiktok.com/embed.js"></script>
       </div>
     </div>
     <div class="cta-section-large">
