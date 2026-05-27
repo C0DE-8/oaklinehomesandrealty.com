@@ -128,6 +128,45 @@ body { color: #1c2a22; }
   line-height: 1;
 }
 
+.container-small.temp .title-wrap-centre.temp {
+  position: relative;
+  z-index: 2;
+  margin-bottom: 32px;
+}
+
+.container-small.temp .about-cover-image {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  max-width: 1058px;
+  margin: 0 auto 100px;
+}
+
+.feature-icon img {
+  width: 34px;
+  height: 34px;
+  object-fit: contain;
+  filter: brightness(0) saturate(100%) invert(42%) sepia(15%) saturate(1304%) hue-rotate(77deg) brightness(93%) contrast(89%);
+}
+
+.agent-collection .agents-status {
+  grid-column: 1 / -1;
+  margin: 0;
+  padding: 28px;
+  color: #617067;
+  background: #fff;
+  border: 1px solid rgba(18, 53, 37, .12);
+  border-radius: 8px;
+  text-align: center;
+}
+
+@media screen and (max-width: 479px) {
+  .container-small.temp .about-cover-image {
+    margin-bottom: 60px;
+  }
+}
+
 .footer-section,
 .footer-legal,
 .navigation-menu {

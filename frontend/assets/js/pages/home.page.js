@@ -213,6 +213,55 @@
     list.innerHTML = agents.slice(0, 3).map(renderAgentCard).join("");
   }
 
+  function replaceReviewBranding(root) {
+    if (!root) {
+      return;
+    }
+
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+      acceptNode(node) {
+        const parent = node.parentElement;
+
+        if (!parent || ["SCRIPT", "STYLE", "NOSCRIPT"].includes(parent.tagName)) {
+          return NodeFilter.FILTER_REJECT;
+        }
+
+        return /fancy apartments?/i.test(node.nodeValue) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_SKIP;
+      },
+    });
+
+    const textNodes = [];
+    while (walker.nextNode()) {
+      textNodes.push(walker.currentNode);
+    }
+
+    textNodes.forEach((node) => {
+      node.nodeValue = node.nodeValue.replace(/fancy apartments?/gi, "Oakline Apartments");
+    });
+  }
+
+  function normalizeReviewBranding() {
+    const reviews = document.querySelector(".elfsight-app-1d1a5264-0f77-4d86-902f-90c252a2c8bf");
+
+    if (!reviews) {
+      return;
+    }
+
+    replaceReviewBranding(reviews);
+
+    const observer = new MutationObserver(() => {
+      replaceReviewBranding(reviews);
+    });
+
+    observer.observe(reviews, {
+      childList: true,
+      subtree: true,
+      characterData: true,
+    });
+
+    window.setTimeout(() => observer.disconnect(), 15000);
+  }
+
   async function loadHomeData() {
     if (!api) {
       return;
@@ -231,4 +280,5 @@
   }
 
   document.addEventListener("DOMContentLoaded", loadHomeData);
+  document.addEventListener("DOMContentLoaded", normalizeReviewBranding);
 })();
